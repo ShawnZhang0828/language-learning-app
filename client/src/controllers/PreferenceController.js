@@ -51,7 +51,7 @@ const updatePreference = (prefName, value) => {
             throw new Error(`Invalid value for preference: ${prefName} - ${value}`);
         }
         userRef.update({
-            prefName: value
+            [prefName]: value
         })
         .then(() => {
             console.log(`Updated preference ${prefName} - ${value}`);

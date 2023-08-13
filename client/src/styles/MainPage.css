@@ -1,0 +1,47 @@
+#subfeature-popup {
+}
+
+.MuiBackdrop-root {
+    background-color:rgb(250, 235, 215, 0) !important; 
+    height: 100vh !important;
+    width: 100vw !important;
+}
+
+#subfeature-list-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background-color:rgb(250, 235, 215, 1); 
+
+    padding: 20px;
+    border-radius: 20px;
+}
+
+.subfeature-list {
+    display: grid;
+    grid-template-columns: minmax(100px, 1fr);
+    gap: 20px;
+}
+
+.subfeature-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: 3px;
+
+}
+
+.subfeature-container:hover {
+    transform: scale(1.04);
+}
+
+.subfeature-icon {
+    width: 30px;
+    height: auto;
+    padding-right: 25px;
+}

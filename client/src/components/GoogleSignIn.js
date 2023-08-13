@@ -1,6 +1,7 @@
 import React from 'react';
-import { auth } from '../controllers/SignInController';
 import firebase from 'firebase/compat/app';
+
+import { auth } from '../controllers/SignInController';
 
 const GoogleSignIn = () => {
     const signInWithGoogleHandler = () => {
