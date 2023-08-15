@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { auth } from '../controllers/SignInController';
-import GoogleSignIn from './GoogleSignIn';
 import { useNavigate } from 'react-router-dom';
+
+import { auth } from '../controllers/SignInController';
+
+import GoogleSignIn from './GoogleSignIn';
 
 const SignInForm = () => {
     const [email, setEmail] = useState('');
@@ -15,7 +17,7 @@ const SignInForm = () => {
             event.preventDefault();
             auth.signInWithEmailAndPassword(email, password)
                 .then(() => {
-                    navigate("/LanguagePref");
+                    navigate("/language-pref");
                 })
                 .catch(error => {
                 setError("Error signing in with password and email!");

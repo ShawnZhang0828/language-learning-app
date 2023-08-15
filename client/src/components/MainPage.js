@@ -28,7 +28,7 @@ function MainPage() {
             <h1>Unlock Your Potential</h1>
             <div 
                 className='icon-grid-container'
-                style={{ opacity: selectedFeature == "" ? 1 : 0.3}}>
+                style={{ opacity: selectedFeature === "" ? 1 : 0.3}}>
                 <IconGrid options={features} handleCellSelected={handleFeatureSelected}/>
             </div>
             {features.map(feature => (
@@ -37,7 +37,7 @@ function MainPage() {
                     onClose={handleFeatureUnselected}
                     id='subfeature-popup'
                     key={feature.value}>
-                        <Zoom in={zoom}>
+                        <Zoom in={selectedFeature === feature.value}>
                             <div id='subfeature-list-container'>
                                 <SubfeatureList subfeatures={feature.subfeature}/>
                             </div>

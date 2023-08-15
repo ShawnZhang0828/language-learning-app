@@ -24,7 +24,7 @@ const PreferencePage = ({ prefName, nextPage }) => {
         <div className="preference-selection">
             <div className='preference-title'>{preferences[prefName].text}</div>
             <IconGrid options={preferences[prefName].options} handleCellSelected={handlePrefSelected}/>
-            <button onClick={onPreferenceSubmit}>
+            <button onClick={onPreferenceSubmit} className='preference-btn'>
                 Next
             </button>
         </div>
