@@ -1,4 +1,4 @@
-import { auth, database } from './SignInController';
+import { auth, database } from './FirebaseController';
 
 const preferences = {
     "reason": {

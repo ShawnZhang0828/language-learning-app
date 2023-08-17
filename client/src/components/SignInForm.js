@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { auth } from '../controllers/SignInController';
+import { auth } from '../controllers/FirebaseController';
 
 import GoogleSignIn from './GoogleSignIn';
 

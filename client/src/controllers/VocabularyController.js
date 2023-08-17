@@ -2,7 +2,7 @@ import axios from 'axios';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-import { auth, database } from './SignInController';
+import { auth, database } from './FirebaseController';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -19,9 +19,11 @@ const addNewWord = async (vocabularyData) => {
         const user = auth.currentUser;
     
         if (user) {
+            var timeStamp = getFormattedCurrentDate();
+
             const userId = user.uid;
             const userRef = database.collection("vocabulary").doc(userId);
-    
+
             await userRef.update({
                 words: firebase.firestore.FieldValue.arrayUnion(
                     {
@@ -29,7 +31,8 @@ const addNewWord = async (vocabularyData) => {
                         translation: vocabularyData.translation,
                         note: vocabularyData.note,
                         level: response.data.level,
-                        example: response.data.example
+                        example: response.data.example,
+                        time: timeStamp
                     }
                 )} 
             )
@@ -43,4 +46,41 @@ const addNewWord = async (vocabularyData) => {
     };
 }
 
-export { addNewWord };
+const getAllVocabulary = async () => {
+    const user = auth.currentUser;
+
+    if (user) {
+        const userId = user.uid;
+        const userRef = database.collection("vocabulary").doc(userId);
+
+        try {
+            const docSnapshot = await userRef.get();
+            if (docSnapshot.exists) {
+                var words = docSnapshot.data().words;
+    
+                return words;
+            } else {
+                throw new Error(`${userId} document does not exist.`);
+            }
+        }
+        catch(error) {
+            console.error("Error getting all vocabulary: ", error);
+        }
+    } else {
+        console.error("user does not exist");
+        return [];
+    }
+}
+
+const getFormattedCurrentDate = () => {
+    const date = new Date();
+    const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
+    var month = formatter.format(date);
+    var day = date.getDate();
+    var year = date.getFullYear();
+    var timeStamp = `${month}. ${day}, ${year}`;
+
+    return timeStamp
+}
+
+export { addNewWord, getAllVocabulary };

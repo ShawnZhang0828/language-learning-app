@@ -1,3 +1,4 @@
+/* CSS for add new word popup */
 .add-word-btn-container {
     position: fixed;
     top: 10px;
@@ -85,4 +86,66 @@
 
 #note-container input {
     height: 80%;
+}
+
+/* CSS for vocabulary lists */
+.slick-track {
+    /* width: 100%; */
+}
+
+.vocabulary-lists-container {
+    /* display: flex;
+    flex-direction: row; */
+    margin-top: 70px;
+    margin-left: 5%;
+    width: 90%;
+}
+
+.vocabulary-list th:nth-child(1) {
+    min-width: 120px;
+}
+
+.vocabulary-list th:nth-child(2) {
+    min-width: 110px;
+}
+
+.vocabulary-list th:nth-child(3) {
+    min-width: 50px; 
+}
+
+.vocabulary-list th:nth-child(4) {
+    min-width: 120px;
+}
+
+.vocabulary-list th, .vocabulary-list td {
+    text-align: center;
+    /* box-sizing: border-box; */
+}
+
+.vocabulary-list {
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: auto;
+}
+
+.vocabulary-list tr {
+    border: 3px solid #086382;
+}
+
+/* CSS for page number buttons */
+.page-number-container {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    right: 100px;
+    bottom: 20px;
+}
+
+.page-number-btn {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    text-align: center;
+    padding: 0;
+    background: none;
 }
