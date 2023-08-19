@@ -5,7 +5,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { getAllVocabulary } from '../controllers/VocabularyController';
+import { getAllVocabulary, updateWordInformation } from '../controllers/VocabularyController';
 
 import Word from '../models/word';
 import '../styles/VocabularyLibrary.css'
@@ -24,27 +24,32 @@ function VocabularyLibrary() {
 
     const sliderRef = useRef(null);
 
-    const onAddWordClicked = () => {
+    const onAddWordClick = () => {
         setAddWord(true);
     }
 
-    const onCloseAddWordClicked = () => {
+    const onCloseAddWordClick = () => {
         setAddWord(false);
     }
 
-    const onPageButtonClicked = (pageNUmber) => {
+    const onPageButtonClick = (pageNUmber) => {
         setCurrentPage(pageNUmber);
         if (sliderRef && sliderRef.current) {
             sliderRef.current.slickGoTo(pageNUmber);
         }
     }
 
-    const onVocabularyRowClicked = (word) => {
+    const onVocabularyRowClick = (word) => {
         setSelectedWord(word);
     }
 
-    const onWordDetailExitClicked = () => {
+    const onWordDetailExitClick = () => {
         setSelectedWord(null);
+    }
+
+    const onWordDetailSaveClick = async (word) => {
+        console.log(`Updating information of ${word.word}`)
+        await updateWordInformation(word);
     }
 
     const fetchVocabulary = async () => {
@@ -71,7 +76,7 @@ function VocabularyLibrary() {
     }, []);
 
     useEffect(() => {
-        const maxWordPerPage = 1;
+        const maxWordPerPage = 5;
         const totalPages = Math.ceil(words.length / maxWordPerPage)
         setTotalPages(totalPages);
         setCurrentPage(1);
@@ -86,7 +91,7 @@ function VocabularyLibrary() {
     return (
         <div id='vocabulary-library-container'>
             <div className='add-word-btn-container' style={{ opacity: selectedWord === null ? 1 : 0.3}}>
-                <button onClick={onAddWordClicked}>Add New Word</button>
+                <button onClick={onAddWordClick}>Add New Word</button>
                 <button>Learn New Word</button>
             </div>
             <Modal
@@ -95,7 +100,7 @@ function VocabularyLibrary() {
             >
                 <Zoom in={addWord}>
                     <div className='add-word-zoom-container'>
-                        <NewWordForm cancelAdd={onCloseAddWordClicked}/>
+                        <NewWordForm cancelAdd={onCloseAddWordClick}/>
                     </div>
                     
                 </Zoom>
@@ -103,7 +108,7 @@ function VocabularyLibrary() {
             <div className='vocabulary-lists-container' style={{ opacity: selectedWord === null || addWord ? 1 : 0.3}}>
                 <Slider ref={sliderRef} {...vocabularySliderSetting}>
                     {pageVocabularyList.map((pageVocabulary, index) => (
-                        <VocabularyList words={pageVocabulary} onWordSelected={onVocabularyRowClicked} key={index}/>
+                        <VocabularyList words={pageVocabulary} onWordSelected={onVocabularyRowClick} key={index}/>
                     ))}
                 </Slider>
             </div>
@@ -111,7 +116,7 @@ function VocabularyLibrary() {
                 {Array.from({ length: totalPages }).map((_, index) => (
                     <button className='page-number-btn' 
                             key={index} 
-                            onClick={() => {onPageButtonClicked(index+1)}}
+                            onClick={() => {onPageButtonClick(index+1)}}
                             style={{background: `${index+1 === currentPage ? "#90b4f0" : "none"}`}}
                     >
                                 {index+1}
@@ -123,7 +128,9 @@ function VocabularyLibrary() {
                 id="word-detail-popup"
             >
                 <Zoom in={selectedWord}>
-                    {selectedWord && <WordDetailCard word={selectedWord} onExitClick={onWordDetailExitClicked}/>}
+                    <div id='word-detail-container'>
+                        {selectedWord && <WordDetailCard word={selectedWord} onExitClick={onWordDetailExitClick} onSaveClick={onWordDetailSaveClick}/>}
+                    </div>
                 </Zoom>
             </Modal>
         </div>

@@ -85,10 +85,6 @@
 }
 
 /* CSS for vocabulary lists */
-.slick-track {
-    /* width: 100%; */
-}
-
 .vocabulary-lists-container {
     /* display: flex;
     flex-direction: row; */
@@ -185,7 +181,9 @@
 }
 
 #word-title {
-    font-size: 28px;
+    min-height: 47px;
+    display: flex;
+    align-items: center;
     font-weight: bold;
 }
 
@@ -206,7 +204,7 @@
 }
 
 #example-cell {
-    width: 180px;
+    width: 220px;
     text-align: center;
 }
 
@@ -218,6 +216,7 @@
     position: absolute;
     right: 0;
     top: 10px;
+    z-index: 99;
 }
 
 .word-popup-function-icon {
