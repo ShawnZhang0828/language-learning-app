@@ -16,10 +16,6 @@
     /* box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset; */
 }
 
-.add-word-btn-container button:hover {
-    transform: scale(1.05);
-}
-
 #add-word-popup {
     display: flex;
     flex-direction: column;
@@ -60,7 +56,7 @@
 
 .add-word-form-header-btns {
     display: flex;
-    gap: 10px;
+    gap: 7px;
 }
 
 .add-word-form-header-btn {
@@ -139,6 +135,7 @@
     position: absolute;
     right: 100px;
     bottom: 20px;
+    gap: 5px;
 }
 
 .page-number-btn {
@@ -147,5 +144,94 @@
     border-radius: 50%;
     text-align: center;
     padding: 0;
+    background: none;
+}
+
+/* CSS for word details popup */
+#word-detail-popup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#word-detail-container {
+    padding: 5px 10px 5px 10px;
+    border: 2px solid black;
+    width: 20%;
+}
+
+.word-popup-column {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#translation-cell, #exit-save-cell, #delete-cell {
+    position: relative;
+}
+
+#translation-cell-input {
+    background: none;
+    width: 90%;
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 8px;
+    margin-left: 5px;
+
+    border: none;
+    border-bottom: 1px solid black;
+    outline: none;
+}
+
+#word-title {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+#level-selection-cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#level-selection {
+    padding: 5px 12px;
+    text-align: center;
+}
+
+#example-cell-text {
+    margin-bottom: 2px;
+    font-style: italic;
+}
+
+#example-cell {
+    width: 180px;
+    text-align: center;
+}
+
+#word-detail-container {
+    position: relative;
+}
+
+#word-popup-function-icon-container {
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.word-popup-function-icon {
+    width: 18px;
+    height: 18px;
+    float: right;
+}
+
+#word-note {
+    padding-top: 4px;
+}
+
+#word-note-textarea {
+    width: 100%;
+    height: 50px;
     background: none;
 }

@@ -4,6 +4,8 @@ import 'firebase/compat/firestore';
 
 import { auth, database } from './FirebaseController';
 
+import Word from '../models/word'
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const addNewWord = async (vocabularyData) => {
@@ -57,8 +59,8 @@ const getAllVocabulary = async () => {
             const docSnapshot = await userRef.get();
             if (docSnapshot.exists) {
                 var words = docSnapshot.data().words;
-    
-                return words;
+                
+                return words.map(word => {return new Word(word.word, word.translation, word.level, word.example, word.note, word.time)});
             } else {
                 throw new Error(`${userId} document does not exist.`);
             }

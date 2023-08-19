@@ -1,6 +1,6 @@
 import React from 'react'
 
-function VocabularyList({ words }) {
+function VocabularyList({ words, onWordSelected }) {
     return (
         <table className='vocabulary-list'>
             <thead>
@@ -13,7 +13,7 @@ function VocabularyList({ words }) {
             </thead>
             <tbody>
                 {words.map((word, index) => (
-                    <tr key={index}>
+                    <tr key={index} className='vocabulary-table-row' onClick={() => {onWordSelected(word)}}>
                         <td>{word.word}</td>
                         <td>{word.translation}</td>
                         <td>{word.level}</td>

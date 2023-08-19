@@ -1,0 +1,78 @@
+import React, { useState } from 'react';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+
+import Word from '../models/word'
+
+function WordDetailCard({ word, onExitClick }) {
+
+    const [translation, setTranslation] = useState("");
+    const [note, setNote] = useState("");
+    const [level, setLevel] = useState(word.level);
+
+    const onLevelSelect = (event) => {
+        setLevel(event.target.value);
+    }
+
+
+    return (
+        <div id='word-detail-container'>
+            <div id='word-popup-function-icon-container'>
+                <button onClick={() => {}} id='word-detail-save-button'>
+                    <img src='/common-icons/save.png' alt='save' className='word-popup-function-icon'/>
+                </button>
+                <button onClick={() => {}} id='word-detail-delete-button'>
+                    <img src='/common-icons/delete.png' alt='delete' className='word-popup-function-icon'/>
+                </button>
+                <button onClick={onExitClick} id='word-detail-exit-button' >
+                    <img src='/common-icons/cancel.png' alt='close' className='word-popup-function-icon'/>
+                </button>
+            </div>
+            <table id='word-general-info-container'>
+                <tr id='id-translation-exit'>
+                    <td>
+                        <div id='word-title'>{word.word}</div>
+                    </td>
+                    <td id='translation-cell'>
+                        <input
+                            id='translation-cell-input'
+                            type='text'
+                            defaultValue={word.translation}
+                            onChange={(e) => {setTranslation(e.target.value)}} />
+                        </td>
+                </tr>
+                <tr id='level-example-save-delete'>
+                    <td id='level-selection-cell'>
+                        {/* <span>{word.level}</span> */}
+                        <Select
+                            id="level-selection"
+                            value={level}
+                            label="Level"
+                            onChange={onLevelSelect}
+                            IconComponent={() => null}
+                            sx={{borderRadius: "50%", textAlign: "center"}}
+                        >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={2}>2</MenuItem>
+                            <MenuItem value={3}>3</MenuItem>
+                            <MenuItem value={4}>4</MenuItem>
+                            <MenuItem value={5}>5</MenuItem>
+                        </Select>
+                    </td>
+                    <td id='example-cell'>
+                        <div id='example-cell-text'>{word.example}</div>
+                    </td>
+                </tr>
+            </table>
+            <div id='word-note'>
+                <textarea
+                    id='word-note-textarea'
+                    type='text'
+                    defaultValue={word.note}
+                    onChange={(e) => {setNote(e.target.value)}} />
+            </div>
+        </div>
+    )
+}
+
+export default WordDetailCard

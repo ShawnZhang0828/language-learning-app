@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { addNewWord } from '../controllers/VocabularyController';
 
-function NewWordForm({ addCancel }) {
+function NewWordForm({ cancelAdd }) {
 
     const [word, setWord] = useState("");
     const [translation, setTranslation] = useState("");
@@ -62,7 +62,7 @@ function NewWordForm({ addCancel }) {
                     <button type='submit' className='add-word-form-header-btn'>
                         <img src='/common-icons/submit.png' alt='Submit'/>
                     </button>
-                    <button type='button' className='add-word-form-header-btn' onClick={addCancel}>
+                    <button type='button' className='add-word-form-header-btn' onClick={cancelAdd}>
                         <img src='/common-icons/cancel.png' alt='Cancel'/>
                     </button>
                 </div>
@@ -79,10 +79,6 @@ function NewWordForm({ addCancel }) {
                 <label> Note: </label>
                 <textarea type='text' name='note'onChange={(event) => {onChangeHandler(event)}} value={note} />
             </div>
-            {/* <div id='add-word-form-btn-container'>
-                <input type='submit' value='Submit' name='submit' style={{marginRight: '5px'}}/>
-                <input type='submit' value='Cancel' name='cancel' />
-            </div> */}
         </form>
     )
 }
