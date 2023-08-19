@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 
 import { addNewWord } from '../controllers/VocabularyController';
+import { userPreferenceContext } from '../controllers/PreferenceController';
 
-function NewWordForm({ cancelAdd }) {
+function NewWordForm({ cancelAdd, language }) {
 
     const [word, setWord] = useState("");
     const [translation, setTranslation] = useState("");
@@ -18,10 +19,12 @@ function NewWordForm({ cancelAdd }) {
         setTranslation("");
         setNote("");
 
+
         var wordData = {
             word: word,
             translation: translation,
-            note: note
+            note: note,
+            language: language
         };
         console.log(wordData);
 

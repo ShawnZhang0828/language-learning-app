@@ -149,6 +149,49 @@ const updateWordInformation = async (word) => {
     }
 }
 
+const removeWord = async (word) => {
+    const user = auth.currentUser;
+
+    if (user) {
+        const userId = user.uid;
+        const userRef = database.collection("vocabulary").doc(userId);
+
+        try {
+            const docSnapshot = await userRef.get();
+            if (docSnapshot.exists) {
+                var words = docSnapshot.data();
+
+                var existLevel = null;
+                var levelWords = [];
+                for (var level in words) {
+                    levelWords = words[level];
+                    var wordToRemove = levelWords.find(w => w.word === word.word);
+                    if (wordToRemove) {
+                        existLevel = level;
+                        break;
+                    }
+                }
+
+                console.log("Word level changed, deleting the old one...");
+                await userRef.update({
+                    [existLevel]: firebase.firestore.FieldValue.arrayRemove(wordToRemove)
+                });
+                console.log(`${word.word} successfully removed.`);
+                return true;
+            } else {
+                throw new Error(`${userId} document does not exist.`);
+            }
+        }
+        catch(error) {
+            console.error("Error updating word: ", error);
+            return false;
+        }
+    } else {
+        console.error("user does not exist");
+        return false;
+    }
+}
+
 const getFormattedCurrentDate = () => {
     const date = new Date();
     const formatter = new Intl.DateTimeFormat('en', { month: 'short' });
@@ -160,4 +203,4 @@ const getFormattedCurrentDate = () => {
     return timeStamp
 }
 
-export { addNewWord, getAllVocabulary, updateWordInformation };
+export { addNewWord, getAllVocabulary, updateWordInformation, removeWord };

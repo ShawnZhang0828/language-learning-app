@@ -22,6 +22,15 @@ html, body {
   height:100%;
 }
 
+button {
+  background: none;
+  border: none;
+}
+
+button :hover {
+  transform: scale(1.05);
+}
+
 @keyframes gradient {
     0% {
         background-position: 0% 50%;

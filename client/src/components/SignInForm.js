@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { auth } from '../controllers/FirebaseController';
+import { signInWithEmailAndPassword } from '../controllers/SignInController';
+import { userPreferenceContext } from '../controllers/PreferenceController';
 
 import GoogleSignIn from './GoogleSignIn';
 
@@ -10,20 +12,30 @@ const SignInForm = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
 
+    const { userPreference, setUserPreference } = useContext(userPreferenceContext);
+
     const navigate = useNavigate();
 
-    const signInWithEmailAndPasswordHandler = 
-        (event, email, password) => {
-            event.preventDefault();
-            auth.signInWithEmailAndPassword(email, password)
-                .then(() => {
-                    navigate("/language-pref");
-                })
-                .catch(error => {
-                setError("Error signing in with password and email!");
-                console.error("Error signing in with password and email", error);
-            });
-    };
+    const signInWithEmailAndPasswordHandler = async (event, email, password) => {
+        event.preventDefault();
+        var preferences = await signInWithEmailAndPassword(email, password);
+
+        // Set preference context
+        if (preferences) {
+            setUserPreference(preferences);
+
+            // Navigate to different pages if missing preferences
+            if (!preferences["reason"]) {
+                navigate("/reason-pref");
+            } else if (!preferences["level"]) {
+                navigate("/level-pref");
+            } else {
+                navigate("/main");
+            }
+        } else {
+            navigate("/language-pref");
+        }
+     };
 
     const onChangeHandler = (event) => {
         const {name, value} = event.currentTarget;

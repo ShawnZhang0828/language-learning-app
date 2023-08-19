@@ -1,3 +1,5 @@
+import { createContext } from 'react';
+
 import { auth, database } from './FirebaseController';
 
 const preferences = {
@@ -62,4 +64,10 @@ const updatePreference = (prefName, value) => {
     }
 }
 
-export { updatePreference, preferences };
+// Controls preference context throughout user usage
+const userPreferenceContext = createContext({
+    userPreference: {},
+    setUserPreference: () => {}
+});
+
+export { updatePreference, preferences, userPreferenceContext };

@@ -4,7 +4,7 @@ import Select from '@mui/material/Select';
 
 import Word from '../models/word'
 
-function WordDetailCard({ word, onExitClick, onSaveClick }) {
+function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
 
     const [translation, setTranslation] = useState(word.translation);
     const [note, setNote] = useState(word.translation);
@@ -22,10 +22,11 @@ function WordDetailCard({ word, onExitClick, onSaveClick }) {
         if (!titleDivRef.current || titleSize <= 5) {
             return;
         }
-
+        titleDivRef.current.style.fontSize = `${size}px`;
         while (titleDivRef.current.clientHeight > 60 && size > 5) {
             size -= 1;
             titleDivRef.current.style.fontSize = `${size}px`;
+            break;
         }
     }
 
@@ -48,7 +49,7 @@ function WordDetailCard({ word, onExitClick, onSaveClick }) {
                 >
                     <img src='/common-icons/save.png' alt='save' className='word-popup-function-icon'/>
                 </button>
-                <button onClick={() => {}} id='word-detail-delete-button'>
+                <button onClick={() => {onRemoveClick(word)}} id='word-detail-delete-button'>
                     <img src='/common-icons/delete.png' alt='delete' className='word-popup-function-icon'/>
                 </button>
                 <button onClick={onExitClick} id='word-detail-exit-button' >
@@ -56,39 +57,42 @@ function WordDetailCard({ word, onExitClick, onSaveClick }) {
                 </button>
             </div>
             <table id='word-general-info-container'>
-                <tr id='id-translation-exit'>
-                    <td>
-                        <div id='word-title' ref={titleDivRef}>{word.word}</div>
-                    </td>
-                    <td id='translation-cell'>
-                        <input
-                            id='translation-cell-input'
-                            type='text'
-                            defaultValue={word.translation}
-                            onChange={(e) => {setTranslation(e.target.value)}} />
+                <tbody>
+                    <tr id='id-translation-exit'>
+                        <td>
+                            <div id='word-title' ref={titleDivRef}>{word.word}</div>
                         </td>
-                </tr>
-                <tr id='level-example-save-delete'>
-                    <td id='level-selection-cell'>
-                        <Select
-                            id="level-selection"
-                            value={level}
-                            label="Level"
-                            onChange={onLevelSelect}
-                            IconComponent={() => null}
-                            sx={{borderRadius: "50%", textAlign: "center"}}
-                        >
-                            <MenuItem value={1}>1</MenuItem>
-                            <MenuItem value={2}>2</MenuItem>
-                            <MenuItem value={3}>3</MenuItem>
-                            <MenuItem value={4}>4</MenuItem>
-                            <MenuItem value={5}>5</MenuItem>
-                        </Select>
-                    </td>
-                    <td id='example-cell'>
-                        <div id='example-cell-text'>{word.example}</div>
-                    </td>
-                </tr>
+                        <td id='translation-cell'>
+                            <input
+                                id='translation-cell-input'
+                                type='text'
+                                defaultValue={word.translation}
+                                onChange={(e) => {setTranslation(e.target.value)}} />
+                            </td>
+                    </tr>
+                    <tr id='level-example-save-delete'>
+                        <td id='level-selection-cell'>
+                            <Select
+                                id="level-selection"
+                                value={level}
+                                label="Level"
+                                onChange={onLevelSelect}
+                                IconComponent={() => null}
+                                sx={{borderRadius: "50%", textAlign: "center"}}
+                            >
+                                <MenuItem value={1}>1</MenuItem>
+                                <MenuItem value={2}>2</MenuItem>
+                                <MenuItem value={3}>3</MenuItem>
+                                <MenuItem value={4}>4</MenuItem>
+                                <MenuItem value={5}>5</MenuItem>
+                            </Select>
+                        </td>
+                        <td id='example-cell'>
+                            <div id='example-cell-text'>{word.example}</div>
+                        </td>
+                    </tr>
+                </tbody>
+                
             </table>
             <div id='word-note'>
                 <textarea

@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import Modal from '@mui/material/Modal';
 import Zoom from '@mui/material/Zoom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { getAllVocabulary, updateWordInformation } from '../controllers/VocabularyController';
+import { getAllVocabulary, updateWordInformation, removeWord } from '../controllers/VocabularyController';
 
 import Word from '../models/word';
 import '../styles/VocabularyLibrary.css'
 import NewWordForm from './NewWordForm'
 import VocabularyList from './VocabularyList';
 import WordDetailCard from './WordDetailCard';
+import { userPreferenceContext } from '../controllers/PreferenceController';
 
 function VocabularyLibrary() {
 
@@ -21,6 +24,8 @@ function VocabularyLibrary() {
     const [totalPages, setTotalPages] = useState(1);
     const [pageVocabularyList, setPageVocabularyList] = useState([]);
     const [selectedWord, setSelectedWord] = useState(null);
+
+    const { userPreference, setUserPreference } = useContext(userPreferenceContext);
 
     const sliderRef = useRef(null);
 
@@ -52,6 +57,11 @@ function VocabularyLibrary() {
         await updateWordInformation(word);
     }
 
+    const onWordDetailDeletClick = async (word) => {
+        console.log(`Removing ${word.word} from database`);
+        await removeWord(word);
+    }
+
     const fetchVocabulary = async () => {
         const vocabulary = await getAllVocabulary();
         
@@ -70,7 +80,15 @@ function VocabularyLibrary() {
 
     useEffect(() => {
         async function fetchFirebase() {
-            await fetchVocabulary();
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    console.log(userPreference);
+                    await fetchVocabulary();
+                } else  {
+                    console.log("User signed out.");
+                    setWords([]);
+                }
+            })
         }
         fetchFirebase();
     }, []);
@@ -100,7 +118,7 @@ function VocabularyLibrary() {
             >
                 <Zoom in={addWord}>
                     <div className='add-word-zoom-container'>
-                        <NewWordForm cancelAdd={onCloseAddWordClick}/>
+                        <NewWordForm cancelAdd={onCloseAddWordClick} language={userPreference["target language"]}/>
                     </div>
                     
                 </Zoom>
@@ -124,12 +142,15 @@ function VocabularyLibrary() {
                 ))}
             </div>
             <Modal
-                open={selectedWord != null}
+                open={selectedWord !== null}
                 id="word-detail-popup"
             >
-                <Zoom in={selectedWord}>
+                <Zoom in={selectedWord !== null}>
                     <div id='word-detail-container'>
-                        {selectedWord && <WordDetailCard word={selectedWord} onExitClick={onWordDetailExitClick} onSaveClick={onWordDetailSaveClick}/>}
+                        {selectedWord && <WordDetailCard word={selectedWord} 
+                                                         onExitClick={onWordDetailExitClick} 
+                                                         onSaveClick={onWordDetailSaveClick}
+                                                         onRemoveClick={onWordDetailDeletClick}/>}
                     </div>
                 </Zoom>
             </Modal>
