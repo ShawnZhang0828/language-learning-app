@@ -54,12 +54,14 @@ function VocabularyLibrary() {
 
     const onWordDetailSaveClick = async (word) => {
         console.log(`Updating information of ${word.word}`)
-        await updateWordInformation(word);
+        var result = await updateWordInformation(word);
+        return result;
     }
 
     const onWordDetailDeletClick = async (word) => {
         console.log(`Removing ${word.word} from database`);
-        await removeWord(word);
+        var result = await removeWord(word);
+        return result;
     }
 
     const fetchVocabulary = async () => {

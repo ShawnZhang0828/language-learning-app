@@ -10,6 +10,9 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
     const [note, setNote] = useState(word.translation);
     const [level, setLevel] = useState(word.level);
 
+    const [notification, setNotification] = useState("");
+    const [warning, setWarning] = useState("");
+
     const [titleSize, setTitleSize] = useState(28);
     const titleDivRef = useRef(null);
 
@@ -23,10 +26,9 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
             return;
         }
         titleDivRef.current.style.fontSize = `${size}px`;
-        while (titleDivRef.current.clientHeight > 60 && size > 5) {
+        while (titleDivRef.current.clientHeight > 50 && size > 5) {
             size -= 1;
             titleDivRef.current.style.fontSize = `${size}px`;
-            break;
         }
     }
 
@@ -36,6 +38,8 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
 
     return (
         <div>
+            {notification && <div className="notification" style={{color: "#36a61f", fontSize: "14"}}>{notification}</div>}
+            {warning && <div className="warning" style={{color: "#940027", fontSize: "14"}}>{warning}</div>}
             <div id='word-popup-function-icon-container'>
                 <button 
                     onClick={() => {
@@ -43,13 +47,28 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
                         newWord.translation = translation;
                         newWord.note = note;
                         newWord.level = level;
-                        onSaveClick(newWord);
+                        var result = onSaveClick(newWord);
+                        if (result) {
+                            setNotification(`${word.word} is successfully updated.`);
+                        } else {
+                            setWarning(`Failed to update ${word.word}.`);
+                        }
                     }} 
                     id='word-detail-save-button'
                 >
                     <img src='/common-icons/save.png' alt='save' className='word-popup-function-icon'/>
                 </button>
-                <button onClick={() => {onRemoveClick(word)}} id='word-detail-delete-button'>
+                <button 
+                    onClick={() => {
+                        var result = onRemoveClick(word);
+                        if (result) {
+                            setNotification(`${word.word} is successfully removed.`);
+                        } else {
+                            setWarning(`Failed to remove ${word.word}.`);
+                        }
+                    }} 
+                    id='word-detail-delete-button'
+                >
                     <img src='/common-icons/delete.png' alt='delete' className='word-popup-function-icon'/>
                 </button>
                 <button onClick={onExitClick} id='word-detail-exit-button' >
@@ -67,7 +86,11 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
                                 id='translation-cell-input'
                                 type='text'
                                 defaultValue={word.translation}
-                                onChange={(e) => {setTranslation(e.target.value)}} />
+                                onChange={(e) => {
+                                    setTranslation(e.target.value);
+                                    setNotification("");
+                                    setWarning("");
+                                }} />
                             </td>
                     </tr>
                     <tr id='level-example-save-delete'>
@@ -92,14 +115,17 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
                         </td>
                     </tr>
                 </tbody>
-                
             </table>
             <div id='word-note'>
                 <textarea
                     id='word-note-textarea'
                     type='text'
                     defaultValue={word.note}
-                    onChange={(e) => {setNote(e.target.value)}} />
+                    onChange={(e) => {
+                        setNote(e.target.value);
+                        setNotification("");
+                        setWarning("");
+                    }} />
             </div>
         </div>
     )

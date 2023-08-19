@@ -19,7 +19,6 @@ function NewWordForm({ cancelAdd, language }) {
         setTranslation("");
         setNote("");
 
-
         var wordData = {
             word: word,
             translation: translation,
