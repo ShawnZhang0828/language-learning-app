@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
-import { addNewWord } from '../controllers/VocabularyController';
-import { userPreferenceContext } from '../controllers/PreferenceController';
+import { addNewWord } from '../../controllers/VocabularyController';
+import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function NewWordForm({ cancelAdd, language }) {
 

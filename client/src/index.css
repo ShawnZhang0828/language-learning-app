@@ -27,7 +27,7 @@ button {
   border: none;
 }
 
-button :hover {
+button:hover {
   transform: scale(1.05);
 }
 

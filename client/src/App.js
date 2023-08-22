@@ -7,7 +7,8 @@ import { userPreferenceContext } from './controllers/PreferenceController';
 import SignInForm from './components/SignInForm';
 import PreferencePage from './components/PreferencePage';
 import MainPage from './components/MainPage';
-import VocabularyLibrary from './components/VocabularyLibrary';
+import VocabularyLibrary from './components/vocabulary/VocabularyLibrary';
+import VocabularyQuiz from './components/vocabulary/VocabularyQuiz';
 
 function App() {
 
@@ -31,6 +32,7 @@ function App() {
               <Route path="/level-pref" element={ <PreferencePage prefName="level" nextPage={"/main"} /> }/>
               <Route path="/main" element={ <MainPage /> }/>
               <Route path="/vocabulary-library" element={ <VocabularyLibrary /> }/>
+              <Route path="/vocabulary-quiz" element={ <VocabularyQuiz /> }/>
           </Routes>
       </userPreferenceContext.Provider>
     );

@@ -8,14 +8,14 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { getAllVocabulary, updateWordInformation, removeWord } from '../controllers/VocabularyController';
+import { getAllVocabulary, updateWordInformation, removeWord } from '../../controllers/VocabularyController';
 
-import Word from '../models/word';
-import '../styles/VocabularyLibrary.css'
+import Word from '../../models/word';
+import '../../styles/VocabularyLibrary.css'
 import NewWordForm from './NewWordForm'
 import VocabularyList from './VocabularyList';
 import WordDetailCard from './WordDetailCard';
-import { userPreferenceContext } from '../controllers/PreferenceController';
+import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyLibrary() {
 
