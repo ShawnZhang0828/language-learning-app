@@ -25,15 +25,15 @@ const SignInForm = () => {
             setUserPreference(preferences);
 
             // Navigate to different pages if missing preferences
-            if (!preferences["reason"]) {
+            if (!preferences["target language"]) {
+                navigate("/language-pref");
+            } else if (!preferences["reason"]) {
                 navigate("/reason-pref");
             } else if (!preferences["level"]) {
                 navigate("/level-pref");
             } else {
                 navigate("/main");
-            }
-        } else {
-            navigate("/language-pref");
+            } 
         }
      };
 

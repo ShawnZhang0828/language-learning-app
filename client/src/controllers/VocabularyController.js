@@ -40,7 +40,7 @@ const addNewWord = async (vocabularyData) => {
                 )} 
             );
             console.log(`Updated vocabulary collection - ${vocabularyData.word}`);
-            return { status: 1, message: ""};
+            return { status: 1, message: "" };
         }
     }
     catch(error) {
@@ -134,18 +134,18 @@ const updateWordInformation = async (word) => {
                     });
                 }
                 console.log(`${word.word} successfully updated.`);
-                return true;
+                return { status: 1, message: "" };
             } else {
                 throw new Error(`${userId} document does not exist.`);
             }
         }
         catch(error) {
             console.error("Error updating word: ", error);
-            return false;
+            return { status: 0, message: `We encountered an error when updating ${word.word}` };
         }
     } else {
         console.error("user does not exist");
-        return false;
+        return { status: 0, message: "User not exist" };
     }
 }
 
@@ -177,18 +177,18 @@ const removeWord = async (word) => {
                     [existLevel]: firebase.firestore.FieldValue.arrayRemove(wordToRemove)
                 });
                 console.log(`${word.word} successfully removed.`);
-                return true;
+                return { status: 1, message: "" };
             } else {
                 throw new Error(`${userId} document does not exist.`);
             }
         }
         catch(error) {
-            console.error("Error updating word: ", error);
-            return false;
+            console.error("Error removing word: ", error);
+            return { status: 0, message: `We encountered an error when removing ${word.word}` };
         }
     } else {
         console.error("user does not exist");
-        return false;
+        return { status: 0, message: "User not exist" };
     }
 }
 

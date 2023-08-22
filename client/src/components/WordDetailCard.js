@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
-import Word from '../models/word'
-
 function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
 
     const [translation, setTranslation] = useState(word.translation);
@@ -42,16 +40,16 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
             {warning && <div className="warning" style={{color: "#940027", fontSize: "14"}}>{warning}</div>}
             <div id='word-popup-function-icon-container'>
                 <button 
-                    onClick={() => {
+                    onClick={async () => {
                         var newWord = {...word};
                         newWord.translation = translation;
                         newWord.note = note;
                         newWord.level = level;
-                        var result = onSaveClick(newWord);
-                        if (result) {
+                        var result = await onSaveClick(newWord);
+                        if (result.status === 1) {
                             setNotification(`${word.word} is successfully updated.`);
                         } else {
-                            setWarning(`Failed to update ${word.word}.`);
+                            setWarning(result.message);
                         }
                     }} 
                     id='word-detail-save-button'
@@ -59,12 +57,12 @@ function WordDetailCard({ word, onExitClick, onSaveClick, onRemoveClick }) {
                     <img src='/common-icons/save.png' alt='save' className='word-popup-function-icon'/>
                 </button>
                 <button 
-                    onClick={() => {
-                        var result = onRemoveClick(word);
-                        if (result) {
+                    onClick={async () => {
+                        var result = await onRemoveClick(word);
+                        if (result.status === 1) {
                             setNotification(`${word.word} is successfully removed.`);
                         } else {
-                            setWarning(`Failed to remove ${word.word}.`);
+                            setWarning(result.message);
                         }
                     }} 
                     id='word-detail-delete-button'

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
+import { useNavigate  } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import Modal from '@mui/material/Modal';
@@ -26,6 +27,7 @@ function VocabularyLibrary() {
     const [selectedWord, setSelectedWord] = useState(null);
 
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
+    const navigate = useNavigate();           // app page history
 
     const sliderRef = useRef(null);
 
@@ -64,6 +66,10 @@ function VocabularyLibrary() {
         return result;
     }
 
+    const onPreviousPageClick = () => {
+        navigate(-1);
+    }
+
     const fetchVocabulary = async () => {
         const vocabulary = await getAllVocabulary();
         
@@ -96,7 +102,7 @@ function VocabularyLibrary() {
     }, []);
 
     useEffect(() => {
-        const maxWordPerPage = 5;
+        const maxWordPerPage = 18;
         const totalPages = Math.ceil(words.length / maxWordPerPage)
         setTotalPages(totalPages);
         setCurrentPage(1);
@@ -110,7 +116,10 @@ function VocabularyLibrary() {
 
     return (
         <div id='vocabulary-library-container'>
-            <div className='add-word-btn-container' style={{ opacity: selectedWord === null ? 1 : 0.3}}>
+            <button className='previous-page-button' onClick={onPreviousPageClick}>
+                <img src='/common-icons/back.png' />
+            </button>
+            <div className='add-word-btn-container' style={{ opacity: (selectedWord === null && !addWord) ? 1 : 0.3 }}>
                 <button onClick={onAddWordClick}>Add New Word</button>
                 <button>Learn New Word</button>
             </div>
@@ -122,10 +131,9 @@ function VocabularyLibrary() {
                     <div className='add-word-zoom-container'>
                         <NewWordForm cancelAdd={onCloseAddWordClick} language={userPreference["target language"]}/>
                     </div>
-                    
                 </Zoom>
             </Modal>
-            <div className='vocabulary-lists-container' style={{ opacity: selectedWord === null || addWord ? 1 : 0.3}}>
+            <div className='vocabulary-lists-container' style={{ opacity: (selectedWord === null && !addWord) ? 1 : 0.3 }}>
                 <Slider ref={sliderRef} {...vocabularySliderSetting}>
                     {pageVocabularyList.map((pageVocabulary, index) => (
                         <VocabularyList words={pageVocabulary} onWordSelected={onVocabularyRowClick} key={index}/>
