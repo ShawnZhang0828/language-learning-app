@@ -1,5 +1,7 @@
 import { auth, database } from '../controllers/FirebaseController';
 
+//TODO: Set up database when user creates accounts
+
 const signInWithEmailAndPassword = async (email, password) => {
     try {
         await auth.signInWithEmailAndPassword(email, password);

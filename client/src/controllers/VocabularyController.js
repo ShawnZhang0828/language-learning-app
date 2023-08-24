@@ -49,7 +49,7 @@ const addNewWord = async (vocabularyData) => {
     };
 }
 
-const getAllVocabulary = async () => {
+const getAllVocabulary = async (levelDict = false) => {
     const user = auth.currentUser;
 
     if (user) {
@@ -59,16 +59,20 @@ const getAllVocabulary = async () => {
         try {
             const docSnapshot = await userRef.get();
             if (docSnapshot.exists) {
+                // Example: {"1": [Word, Word, ...], "2": [Word, ...]}
                 var words = docSnapshot.data();
 
-                var allWords = [];
-                for (var level in words) {
-                    var levelWords = [];
-                    levelWords = words[level].map(word => {return new Word(word.word, word.translation, level, word.example, word.note, word.time)});
-                    allWords = allWords.concat(levelWords);
+                // If a dictionary is requested (for vocabulary quiz)
+                var levelWords = {};
+                for (var key in words) {
+                    levelWords[key] = words[key].map(word => {return new Word(word.word, word.translation, key, word.example, word.note, word.time)});
                 }
-                
-                return allWords;
+
+                if (levelDict) {
+                    return levelWords;
+                } else {
+                    return Object.values(levelWords).flat();
+                }
             } else {
                 throw new Error(`${userId} document does not exist.`);
             }

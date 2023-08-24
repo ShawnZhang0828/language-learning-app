@@ -30,7 +30,7 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
 
     const onQuizStartClick = () => {
         setQuizStarted(true);
-        onQuizStart();
+        onQuizStart(difficulty, totalQuestions);
     }
 
     return (
