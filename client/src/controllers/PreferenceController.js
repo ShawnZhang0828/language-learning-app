@@ -25,6 +25,18 @@ const preferences = {
             {value: "German", icon: "/preference-icons/german.png"},
         ]
     },
+    "original language": {
+        text: "Language You Currently Speak",
+        options: [
+            {value: "Chinese", icon: "/preference-icons/chinese.png"},
+            {value: "English", icon: "/preference-icons/english.png"},
+            {value: "Spanish", icon: "/preference-icons/spanish.png"},
+            {value: "Japanese", icon: "/preference-icons/japanese.png"},
+            {value: "Korean", icon: "/preference-icons/korean.png"},
+            {value: "Franch", icon: "/preference-icons/franch.png"},
+            {value: "German", icon: "/preference-icons/german.png"},
+        ]
+    },
     "level": {
         text: "Current Level",
         options: [

@@ -27,7 +27,8 @@ function App() {
       <userPreferenceContext.Provider value={{ userPreference, setUserPreference }}>
           <Routes>
               <Route path="/" element={ <SignInForm /> }/>
-              <Route path="/language-pref" element={ <PreferencePage prefName="target language" nextPage={"/reason-pref"}></PreferencePage> }/>
+              <Route path="/target-language-pref" element={ <PreferencePage prefName="target language" nextPage={"/original-language-pref"}></PreferencePage> }/>
+              <Route path="/original-language-pref" element={ <PreferencePage prefName="original language" nextPage={"/reason-pref"}></PreferencePage> }/>
               <Route path="/reason-pref" element={ <PreferencePage prefName="reason" nextPage={"/level-pref"}></PreferencePage> }/>
               <Route path="/level-pref" element={ <PreferencePage prefName="level" nextPage={"/main"} /> }/>
               <Route path="/main" element={ <MainPage /> }/>
