@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -37,6 +37,19 @@ function VocabularyQuizCard({ title, questions, setParentAnswer }) {
             [question]: event.target.value
         });
     }
+
+    // Initialize empty answer dictionary
+    const initializeAnswer = (questions) => {
+        var answers = questions.reduce((acc, curr) => {
+            acc[curr] = "";
+            return acc;
+        }, {});
+        return answers;
+    }
+
+    useEffect(() => {
+        setAnswers(initializeAnswer(questions));
+    }, [questions]);
 
     return (
         <div id='vocabulary-quiz-card'>

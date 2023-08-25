@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate  } from 'react-router-dom';
 
-import { getVocabularyQuizQuestions } from '../../controllers/VocabularyQuizController';
+import { getFeedback, getVocabularyQuizQuestions } from '../../controllers/VocabularyQuizController';
 
 import "../../styles/VocabularyQuiz.css"
 import QuizOption from '../common/QuizOption';
 import VocabularyQuizCard from './VocabularyQuizCard';
+import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyQuiz() {
 
@@ -19,6 +20,7 @@ function VocabularyQuiz() {
     const [secondQuestionSet, setSecondQuestionSet] = useState([]);
 
     const navigate = useNavigate();
+    const { userPreference, setUserPreference } = useContext(userPreferenceContext);
 
     const onPreviousPageClick = () => {
         navigate(-1);
@@ -33,17 +35,19 @@ function VocabularyQuiz() {
         var secondSet = allQuestions
                                 .filter((_, index) => index % 2 !== 0)
                                 .map(word => word.translation);
-        console.log(firstSet);
-        console.log(secondSet);
         setFirstQuestionSet(firstSet);
         setSecondQuestionSet(secondSet);
         setQuizStarted(true);
     }
 
-    const onQuizSubmitClick = () => {
-        console.log(firstSetAnswer);
-        console.log(secondSetAnswer)
+    const onQuizSubmitClick = async () => {
+        // console.log(firstSetAnswer);
+        // console.log(secondSetAnswer);
+        await getFeedback(firstSetAnswer, userPreference["target language"], userPreference["original language"]);
+        await getFeedback(secondSetAnswer, userPreference["original language"], userPreference["target language"]);
     }
+
+
 
     return (
         <div id='vocabulary-quiz-page'>

@@ -109,7 +109,7 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
             </FormControl>
             
             <button className='quiz-button' onClick={onQuizStartClick} disabled={quizStarted}>START</button>
-            <button className='quiz-button' onClick={onQuizSubmit}>SUBMIT</button>
+            <button className='quiz-button' onClick={onQuizSubmit} disabled={!quizStarted}>SUBMIT</button>
         </div>
     )
 }

@@ -1,4 +1,8 @@
+import axios from 'axios';
+
 import { getAllVocabulary } from "./VocabularyController";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const getVocabularyQuizQuestions = async (difficulty, numberOfQuestions) => {
     var vocabularyLevelDict = await getAllVocabulary(true);
@@ -72,10 +76,27 @@ const getVocabularyQuizQuestions = async (difficulty, numberOfQuestions) => {
     return questions;
 }
 
+const getFeedback = async (answers, originLanguage, targetLanguage) => {
+    try {
+        var requestBody = {
+            answers: answers,
+            originLanguage: originLanguage,
+            targetLanguage: targetLanguage
+        }
+        const response = await axios.post(`${BACKEND_URL}/vocabulary/quiz-feedback`, requestBody);
+
+        console.log(response.data);
+    }
+    catch(error) {
+        console.error("Error adding vocabulary", error);
+        return { status: 0, message: "We encountered an error when adding the word" };
+    };
+}
+
 const getRandomElementsFromArray = (words, numberOfWords) => {
     // Shuffle words array and pick first n elements
     const shuffledWords = words.sort(() => 0.5 - Math.random());
     return shuffledWords.slice(0, numberOfWords);
 }
 
-export { getVocabularyQuizQuestions }
+export { getVocabularyQuizQuestions, getFeedback }
