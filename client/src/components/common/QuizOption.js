@@ -14,6 +14,10 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
     const [minuteLimit, setMinuteLimit] = useState(30);
     const [quizStarted, setQuizStarted] = useState(false);
 
+    const [remainingTime, setRemainingTime] = useState(0);
+    const [timer, setTimer] = useState(null);
+    const [timerRunning, setTimerRunning] = useState(false);
+
     const onDifficultySelected = (event) => {
         setDiffculty(event.target.value);
     }
@@ -31,13 +35,47 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
     }
 
     const onQuizStartClick = () => {
+        // const totalTime = hourLimit * 3600 * 1000 + minuteLimit * 60 * 1000;
         setQuizStarted(true);
         onQuizStart(difficulty, totalQuestions);
+        startTimer();
     }
 
     const onQuizSubmitClick = () => {
         setQuizStarted(false);
         onQuizSubmit();
+
+        clearInterval(timer);
+        setTimer(null);
+    }
+
+    const startTimer = () => {
+        setRemainingTime(hourLimit * 3600 + minuteLimit * 60);
+
+        const timer = setInterval(() => {
+            setRemainingTime((prevsTime) => {
+                if (prevsTime <= 1) {
+                    setHourLimit(0);
+                    setMinuteLimit(0);
+                    onQuizSubmit();
+                    return 0;
+                } else {
+                    const [hour, minute] = parseRemainingTime(prevsTime - 1);
+                    console.log(hour + "  " + minute)
+                    setHourLimit(hour);
+                    setMinuteLimit(minute);
+                    return prevsTime - 1;
+                }
+            })
+        }, 1000)
+
+        setTimer(timer);
+    }
+
+    const parseRemainingTime = (timeInSecond) => {
+        const hour = Math.floor(timeInSecond / 3600);
+        const minute = Math.ceil(timeInSecond / 60);
+        return [hour, minute];
     }
 
     return (
@@ -70,16 +108,15 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
                     onChange={onHourSelected}
                     disabled={quizStarted}
                 >
-                    <MenuItem value={5}>5</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={0}>0</MenuItem>
+                    {
+                        Array.from({ length: 5 }).map((_, index) => (
+                            <MenuItem value={index} key={index}>{index}</MenuItem>
+                        ))
+                    }
                 </Select>
             </FormControl>
 
-            <FormControl sx={{width: "70px"}}>
+            <FormControl sx={{ width: "70px" }}>
                 <InputLabel>Minute</InputLabel>
                 <Select
                     id="minute-selection"
@@ -87,12 +124,25 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
                     label="Minute"
                     onChange={onMinuteSelected}
                     disabled={quizStarted}
+                    sx={{ 
+                            "&.Mui-disabled": {
+                                color: `${minuteLimit < 31 ? '#ce3e3e' : 'black' }`,
+                                '-webkit-text-fill-color': `${minuteLimit < 31 ? '' : ''}`,
+                                opacity: 1
+                              }
+                        }}
                 >
-                    <MenuItem value={50}>50</MenuItem>
-                    <MenuItem value={40}>40</MenuItem>
-                    <MenuItem value={30}>30</MenuItem>
-                    <MenuItem value={20}>20</MenuItem>
-                    <MenuItem value={10}>10</MenuItem>
+                    {
+                        Array.from({ length: 60 }).map((_, index) => (
+                            <MenuItem 
+                                value={index} 
+                                sx={{ display: `${index % 10 === 0 ? '' : 'none' }` }}
+                                key={index}
+                            >
+                                {index}
+                            </MenuItem>
+                        ))
+                    }
                 </Select>
             </FormControl>
 

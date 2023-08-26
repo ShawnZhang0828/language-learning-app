@@ -1,0 +1,27 @@
+#quiz-option {
+    /* position: absolute;
+    right: 30px;
+    top: 20px; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-top: 20px;
+    padding-right: 30px;
+    gap: 20px;
+    align-items: center;
+}
+
+.quiz-button {
+    width: 70px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    height: 40px;
+}
+
+/* To overwrite the original css */
+#minute-selection {
+    -webkit-text-fill-color: unset;
+}
