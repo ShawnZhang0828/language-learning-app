@@ -10,9 +10,6 @@ import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyQuiz() {
 
-    const [difficulty, setDiffculty] = useState(1);
-    const [totalQuestions, setTotalQuestions] = useState(20);
-    const [remainingTime, setRemainingTime] = useState(0);
     const [quizStarted, setQuizStarted] = useState(false);
     const [firstSetAnswer, setFirstSetAnswer] = useState({});
     const [secondSetAnswer, setSecondSetAnswer] = useState({});
@@ -20,6 +17,8 @@ function VocabularyQuiz() {
     const [secondQuestionSet, setSecondQuestionSet] = useState([]);
     const [firstSetFeedback, setFirstSetFeedback] = useState([]);
     const [secondSetFeedback, setSecondSetFeedback] = useState([]);
+
+    
 
     const navigate = useNavigate();
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
@@ -45,8 +44,10 @@ function VocabularyQuiz() {
     }
 
     const onQuizSubmitClick = async () => {
-        const firstFeedback = await getFeedback(firstSetAnswer, userPreference["target language"], userPreference["original language"]);
-        const secondFeedback = await getFeedback(secondSetAnswer, userPreference["original language"], userPreference["target language"]);
+        const firstFeedbackResponse = await getFeedback(firstSetAnswer, userPreference["target language"], userPreference["original language"]);
+        const secondFeedbackResponse = await getFeedback(secondSetAnswer, userPreference["original language"], userPreference["target language"]);
+        const firstFeedback = firstFeedbackResponse.response;
+        const secondFeedback = secondFeedbackResponse.response;
         setFirstSetFeedback(firstFeedback.split('\n').map(f => f === '1' ? true : false));
         setSecondSetFeedback(secondFeedback.split('\n').map(f => f === '1' ? true : false));
         setQuizStarted(false);

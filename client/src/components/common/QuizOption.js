@@ -107,6 +107,13 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
                     label="Hour"
                     onChange={onHourSelected}
                     disabled={quizStarted}
+                    sx={{ 
+                        "&.Mui-disabled": {
+                            color: `${minuteLimit <= 5 ? '#ce3e3e' : '#08013d' }`,
+                            fontWeight: 'bold',
+                            opacity: 1
+                          }
+                    }}
                 >
                     {
                         Array.from({ length: 5 }).map((_, index) => (
@@ -126,8 +133,8 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
                     disabled={quizStarted}
                     sx={{ 
                             "&.Mui-disabled": {
-                                color: `${minuteLimit < 31 ? '#ce3e3e' : 'black' }`,
-                                '-webkit-text-fill-color': `${minuteLimit < 31 ? '' : ''}`,
+                                color: `${minuteLimit <= 5 ? '#ce3e3e' : '#08013d' }`,
+                                fontWeight: 'bold',
                                 opacity: 1
                               }
                         }}

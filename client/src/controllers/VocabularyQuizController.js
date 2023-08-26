@@ -87,11 +87,11 @@ const getFeedback = async (answers, originLanguage, targetLanguage) => {
         const response = await axios.post(`${BACKEND_URL}/vocabulary/quiz-feedback`, requestBody);
 
         console.log(`Quiz feedback obtained - ${response.data.corrections}`);
-        return response.data.corrections;
+        return { status: 1, message: "Answers evaluated successfully.", response: response.data.corrections }; 
     }
     catch(error) {
         console.error("Error adding vocabulary", error);
-        return { status: 0, message: "We encountered an error when adding the word" };
+        return { status: 0, message: "We encountered an error when evaluating the answers.", response: "" };
     };
 }
 

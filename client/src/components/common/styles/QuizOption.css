@@ -22,6 +22,6 @@
 }
 
 /* To overwrite the original css */
-#minute-selection {
+#minute-selection, #hour-selection{
     -webkit-text-fill-color: unset;
 }
