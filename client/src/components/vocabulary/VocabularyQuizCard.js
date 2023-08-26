@@ -3,7 +3,7 @@ import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-function VocabularyQuizCard({ title, questions, setParentAnswer }) {
+function VocabularyQuizCard({ title, questions, setParentAnswer, feedback }) {
 
     const [answers, setAnswers] = useState({});
 
@@ -41,14 +41,16 @@ function VocabularyQuizCard({ title, questions, setParentAnswer }) {
     // Initialize empty answer dictionary
     const initializeAnswer = (questions) => {
         var answers = questions.reduce((acc, curr) => {
-            acc[curr] = "";
+            acc[curr[0]] = "";
             return acc;
         }, {});
         return answers;
     }
 
     useEffect(() => {
-        setAnswers(initializeAnswer(questions));
+        const blankAnswer = initializeAnswer(questions);
+        setAnswers(blankAnswer);
+        setParentAnswer(blankAnswer);
     }, [questions]);
 
     return (
@@ -57,19 +59,31 @@ function VocabularyQuizCard({ title, questions, setParentAnswer }) {
             <Slider {...sliderSetting}>
                 {splitQuestions(questions).map((questionGroup, groupIndex) => (
                     <div className='vocabulary-question-column-container' key={groupIndex}>
-                        {questionGroup.map((question, questionIndex) => (
-                            <div className='vocabulary-question-container' key={questionIndex}>
-                                <div className='vocabulary-question'>
-                                    {`${groupIndex * questionsPerColumn + questionIndex + 1}. ${question}`}
+                        {questionGroup.map((question, questionIndex) => {
+                            var q = question[0];
+                            var a = question[1];
+                            var questionNumber = groupIndex * questionsPerColumn + questionIndex;
+                            return (
+                                <div className='vocabulary-question-container' key={questionIndex}>
+                                    <div className='vocabulary-question'>
+                                        {`${questionNumber + 1}. ${q}`}
+                                    </div>
+                                    <input 
+                                        className='vocabulary-answer-input'
+                                        type='text'
+                                        value={answers[q] || ''}
+                                        onChange={(e) => onAnswerChange(q, e)}
+                                    />
+                                    <div className='vocabulary-feedback-container' style={{display: `${feedback.length === 0 ? 'none' : ''}`}}>
+                                        {
+                                            feedback[questionNumber] 
+                                            ? <img src='/common-icons/checkmark.png' className='feedback-icon'/> 
+                                            : <div className='vocabulary-answer-correction'>{a}</div>
+                                        }
+                                    </div>
                                 </div>
-                                <input 
-                                    className='vocabulary-answer-input'
-                                    type='text'
-                                    value={answers[question] || ''}
-                                    onChange={(e) => onAnswerChange(question, e)}
-                                />
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 ))}
             </Slider>

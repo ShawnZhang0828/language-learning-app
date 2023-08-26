@@ -6,7 +6,6 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const getVocabularyQuizQuestions = async (difficulty, numberOfQuestions) => {
     var vocabularyLevelDict = await getAllVocabulary(true);
-    console.log(vocabularyLevelDict)
 
     // Return all words if not enough words for number of questions
     var totalWords = 0;
@@ -73,6 +72,8 @@ const getVocabularyQuizQuestions = async (difficulty, numberOfQuestions) => {
         }
     }
 
+    console.log(`Quiz questions obtained - ${questions}`);
+
     return questions;
 }
 
@@ -85,7 +86,8 @@ const getFeedback = async (answers, originLanguage, targetLanguage) => {
         }
         const response = await axios.post(`${BACKEND_URL}/vocabulary/quiz-feedback`, requestBody);
 
-        console.log(response.data);
+        console.log(`Quiz feedback obtained - ${response.data.corrections}`);
+        return response.data.corrections;
     }
     catch(error) {
         console.error("Error adding vocabulary", error);

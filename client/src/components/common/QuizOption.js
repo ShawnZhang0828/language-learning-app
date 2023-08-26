@@ -4,6 +4,8 @@ import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
+import './styles/QuizOption.css'
+
 function QuizOption({ onQuizStart, onQuizSubmit }) {
 
     const [difficulty, setDiffculty] = useState(1);
@@ -31,6 +33,11 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
     const onQuizStartClick = () => {
         setQuizStarted(true);
         onQuizStart(difficulty, totalQuestions);
+    }
+
+    const onQuizSubmitClick = () => {
+        setQuizStarted(false);
+        onQuizSubmit();
     }
 
     return (
@@ -109,7 +116,7 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
             </FormControl>
             
             <button className='quiz-button' onClick={onQuizStartClick} disabled={quizStarted}>START</button>
-            <button className='quiz-button' onClick={onQuizSubmit} disabled={!quizStarted}>SUBMIT</button>
+            <button className='quiz-button' onClick={onQuizSubmitClick} disabled={!quizStarted}>SUBMIT</button>
         </div>
     )
 }

@@ -18,6 +18,8 @@ function VocabularyQuiz() {
     const [secondSetAnswer, setSecondSetAnswer] = useState({});
     const [firstQuestionSet, setFirstQuestionSet] = useState([]);
     const [secondQuestionSet, setSecondQuestionSet] = useState([]);
+    const [firstSetFeedback, setFirstSetFeedback] = useState([]);
+    const [secondSetFeedback, setSecondSetFeedback] = useState([]);
 
     const navigate = useNavigate();
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
@@ -31,23 +33,24 @@ function VocabularyQuiz() {
 
         var firstSet = allQuestions
                                 .filter((_, index) => index % 2 === 0)
-                                .map(word => word.word);
+                                .map(word => [word.word, word.translation]);
         var secondSet = allQuestions
                                 .filter((_, index) => index % 2 !== 0)
-                                .map(word => word.translation);
+                                .map(word => [word.translation, word.word]);
         setFirstQuestionSet(firstSet);
         setSecondQuestionSet(secondSet);
+        setFirstSetFeedback([]);
+        setSecondSetFeedback([]);
         setQuizStarted(true);
     }
 
     const onQuizSubmitClick = async () => {
-        // console.log(firstSetAnswer);
-        // console.log(secondSetAnswer);
-        await getFeedback(firstSetAnswer, userPreference["target language"], userPreference["original language"]);
-        await getFeedback(secondSetAnswer, userPreference["original language"], userPreference["target language"]);
+        const firstFeedback = await getFeedback(firstSetAnswer, userPreference["target language"], userPreference["original language"]);
+        const secondFeedback = await getFeedback(secondSetAnswer, userPreference["original language"], userPreference["target language"]);
+        setFirstSetFeedback(firstFeedback.split('\n').map(f => f === '1' ? true : false));
+        setSecondSetFeedback(secondFeedback.split('\n').map(f => f === '1' ? true : false));
+        setQuizStarted(false);
     }
-
-
 
     return (
         <div id='vocabulary-quiz-page'>
@@ -65,15 +68,14 @@ function VocabularyQuiz() {
                 <VocabularyQuizCard 
                     title='QUESTION SET 1'
                     questions={firstQuestionSet}
-                    // questions={["急ぐ1", "ひだり1", "過ぎる1", "乗る1", "火気厳禁1", "急ぐ2", "ひだり2", "過ぎる2", "乗る2", "火気厳禁2",
-                    // "急ぐ3", "ひだり3", "過ぎる3", "乗る3", "火気厳禁3", "急ぐ4", "ひだり4", "過ぎる4", "乗る4", "火気厳禁4"]}    
                     setParentAnswer={setFirstSetAnswer}
+                    feedback={firstSetFeedback}
                 />
                 <VocabularyQuizCard 
                     title='QUESTION SET 2'
                     questions={secondQuestionSet}
-                    // questions={["急ぐ", "ひだり", "過ぎる", "乗る", "火気厳禁", "急ぐ", "ひだり", "過ぎる", "乗る", "火気厳禁"]}  
                     setParentAnswer={setSecondSetAnswer}  
+                    feedback={secondSetFeedback}
                 />
             </div>
         </div>

@@ -47,11 +47,12 @@ router.post('/quiz-feedback', jsonParser, async (req, res) => {
     const { answers, originLanguage, targetLanguage } = req.body;
 
     var queryString = Object.entries(answers)
-                            .map(([key, value]) => `${key} means ${value === "" ? "abc" : value} in ${targetLanguage}`)
+                            .map(([key, value]) => `${key} means ${value === "" ? "shit" : value} in ${targetLanguage}`)
                             .join('\n');
     var hintString = `I will provide a statement about translation. The second word (${targetLanguage}) should be a translation of the first word (${originLanguage}).
     For correct translation: 1
     For incorrect translation: 0
+    For translations include shit: 0
     Example response:
     1
     1
