@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import { MenuItem, Select, FormControl, InputLabel, Snackbar, Alert } from '@mui/material';
 
 import './styles/QuizOption.css'
 
@@ -16,7 +13,7 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
 
     const [remainingTime, setRemainingTime] = useState(0);
     const [timer, setTimer] = useState(null);
-    const [timerRunning, setTimerRunning] = useState(false);
+    const [timeUp, setTimeUp] = useState(false);
 
     const onDifficultySelected = (event) => {
         setDiffculty(event.target.value);
@@ -42,26 +39,31 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
     }
 
     const onQuizSubmitClick = () => {
+        setTimer(null);
+
         setQuizStarted(false);
         onQuizSubmit();
+    }
 
-        clearInterval(timer);
-        setTimer(null);
+    const onTimeUpMessageClose = () => {
+        setTimeUp(false);
     }
 
     const startTimer = () => {
         setRemainingTime(hourLimit * 3600 + minuteLimit * 60);
+        setTimeUp(false);
 
         const timer = setInterval(() => {
             setRemainingTime((prevsTime) => {
                 if (prevsTime <= 1) {
                     setHourLimit(0);
                     setMinuteLimit(0);
-                    onQuizSubmit();
+                    clearInterval(timer);
+                    setTimeUp(true);
+                    onQuizSubmitClick();
                     return 0;
                 } else {
                     const [hour, minute] = parseRemainingTime(prevsTime - 1);
-                    console.log(hour + "  " + minute)
                     setHourLimit(hour);
                     setMinuteLimit(minute);
                     return prevsTime - 1;
@@ -80,6 +82,16 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
 
     return (
         <div id='quiz-option'>
+            <Snackbar
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+                open={timeUp}
+                onClose={onTimeUpMessageClose}
+            >
+                <Alert onClose={onTimeUpMessageClose} severity='warning'>
+                    Quiz time is up!
+                </Alert>
+            </Snackbar>
+
             <FormControl sx={{width: "90px"}}>
                 <InputLabel>Difficulty</InputLabel>
                 <Select
@@ -88,8 +100,6 @@ function QuizOption({ onQuizStart, onQuizSubmit }) {
                     label="Difficulty"
                     onChange={onDifficultySelected}
                     disabled={quizStarted}
-                    // IconComponent={() => null}
-                    // sx={{borderRadius: "50%", textAlign: "center"}}
                 >
                     <MenuItem value={1}>1</MenuItem>
                     <MenuItem value={2}>2</MenuItem>
