@@ -1,7 +1,7 @@
 /* CSS for add new word popup */
 .add-word-btn-container {
     position: fixed;
-    top: 10px;
+    top: 20px;
     right: 10%;
     width: 300px;
     display: flex;

@@ -15,6 +15,7 @@ import '../../styles/VocabularyLibrary.css'
 import NewWordForm from './NewWordForm'
 import VocabularyList from './VocabularyList';
 import WordDetailCard from './WordDetailCard';
+import BackButton from '../common/BackButton'
 import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyLibrary() {
@@ -27,7 +28,7 @@ function VocabularyLibrary() {
     const [selectedWord, setSelectedWord] = useState(null);
 
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
-    const navigate = useNavigate();           // app page history
+    const navigate = useNavigate();
 
     const sliderRef = useRef(null);
 
@@ -116,9 +117,7 @@ function VocabularyLibrary() {
 
     return (
         <div id='vocabulary-library-container'>
-            <button className='previous-page-button' onClick={onPreviousPageClick}>
-                <img src='/common-icons/back.png' />
-            </button>
+            <BackButton />
             <div className='add-word-btn-container' style={{ opacity: (selectedWord === null && !addWord) ? 1 : 0.3 }}>
                 <button onClick={onAddWordClick}>Add New Word</button>
                 <button>Learn New Word</button>

@@ -6,6 +6,7 @@ import { getFeedback, getVocabularyQuizQuestions } from '../../controllers/Vocab
 import "../../styles/VocabularyQuiz.css"
 import QuizOption from '../common/QuizOption';
 import VocabularyQuizCard from './VocabularyQuizCard';
+import BackButton from '../common/BackButton';
 import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyQuiz() {
@@ -17,8 +18,6 @@ function VocabularyQuiz() {
     const [secondQuestionSet, setSecondQuestionSet] = useState([]);
     const [firstSetFeedback, setFirstSetFeedback] = useState([]);
     const [secondSetFeedback, setSecondSetFeedback] = useState([]);
-
-    
 
     const navigate = useNavigate();
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
@@ -55,9 +54,7 @@ function VocabularyQuiz() {
 
     return (
         <div id='vocabulary-quiz-page'>
-            <button className='previous-page-button' onClick={onPreviousPageClick}>
-                <img src='/common-icons/back.png' />
-            </button>
+            <BackButton />
             <QuizOption
                 onQuizStart={onQuizStartClick} 
                 onQuizSubmit={onQuizSubmitClick}
