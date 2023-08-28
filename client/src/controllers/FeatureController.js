@@ -3,7 +3,7 @@ const features = [
         value: "Conversation Practice", 
         icon: "/feature-icons/conversation.png",
         subfeature: [
-            {value: "ChatBot Conversation", icon: "/feature-icons/chatbot.png", link: "/chatbot-chat"},
+            {value: "ChatBot Conversation", icon: "/feature-icons/chatbot.png", link: "/chatbot-chat/chat-room"},
             {value: "Role Playing", icon: "/feature-icons/role-play.png", link: "/role-play"},
             {value: "Grammar Corrections", icon: "/feature-icons/grammar-correction.png", link: "/grammar-check"}
         ]

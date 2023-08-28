@@ -91,7 +91,6 @@ function VocabularyLibrary() {
         async function fetchFirebase() {
             firebase.auth().onAuthStateChanged(async (user) => {
                 if (user) {
-                    console.log(userPreference);
                     await fetchVocabulary();
                 } else  {
                     console.log("User signed out.");

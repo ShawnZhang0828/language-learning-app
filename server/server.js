@@ -5,10 +5,12 @@ const app = express();
 const cors = require('cors');
 
 const vocabularyController = require('./routers/vocabulary.js');
+const chatController = require('./routers/chat.js');
 
 const port = 3000;
 
 app.use('/vocabulary', vocabularyController);
+app.use('/chat', chatController);
 app.use(cors());
 
 // app.get('/api', (req, res) => {

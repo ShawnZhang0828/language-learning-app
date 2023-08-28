@@ -9,6 +9,7 @@ import PreferencePage from './components/PreferencePage';
 import MainPage from './components/MainPage';
 import VocabularyLibrary from './components/vocabulary/VocabularyLibrary';
 import VocabularyQuiz from './components/vocabulary/VocabularyQuiz';
+import ChatPageParamSetter from './components/conversation/ChatPageParamSetter';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/reason-pref" element={ <PreferencePage prefName="reason" nextPage={"/level-pref"}></PreferencePage> }/>
               <Route path="/level-pref" element={ <PreferencePage prefName="level" nextPage={"/main"} /> }/>
               <Route path="/main" element={ <MainPage /> }/>
+              <Route path="/chatbot-chat/:type" element={ <ChatPageParamSetter /> } />
               <Route path="/vocabulary-library" element={ <VocabularyLibrary /> }/>
               <Route path="/vocabulary-quiz" element={ <VocabularyQuiz /> }/>
           </Routes>

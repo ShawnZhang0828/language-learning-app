@@ -1,0 +1,43 @@
+#chat-page-container {
+    height: 100vh;
+}
+
+/* Chat Header CSS */
+#chat-page-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px 20% 10px 20%;
+    border-bottom: 2px black solid;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#chat-swap-img {
+    width: 30px;
+}
+
+/* Chat History CSS */
+#chat-history-list {
+    height: 70%;
+}
+
+/* Send Message CSS */
+#user-chat-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    width: 100vw;
+    height: 40px;
+}
+
+/* #user-chat-input-box {
+    width: 70%;
+} */
+
+#send-message-button-img {
+    width: 25px;
+}
