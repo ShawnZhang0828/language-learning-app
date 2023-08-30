@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { List, ListItem, ListItemText, ListItemAvatar, TextField } from '@mui/material'
+import { List, ListItem, ListItemText, ListItemAvatar, TextField, Avatar } from '@mui/material'
 
 import { sendMessage } from '../../controllers/ChatController'
 import Message from '../../models/message'
@@ -16,7 +16,7 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
 
     const onSendMessageClick = async () => {
         if (newMessage.trim() !== "") {
-            const message = new Message(sender, newMessage);
+            var message = new Message(sender, newMessage);
             setMessages(prevMessages => [...prevMessages, message]);
 
             const response = await sendMessage(newMessage, userPreference["target language"], sender, responder, scenario);
@@ -28,8 +28,8 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
     useEffect(() => {
         async function sendInitialMessage() {
             if (messages.length === 0) {
-                const message = await sendMessage("Start with greeting me!", userPreference["target language"], sender, responder, scenario);
-                setMessages(prevMessages => [...prevMessages, message.response]);
+                const response = await sendMessage("Start with greeting me!", userPreference["target language"], sender, responder, scenario);
+                setMessages(prevMessages => [...prevMessages, response.response]);
             }
         }
         sendInitialMessage();
@@ -54,7 +54,25 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
 
             <List id='chat-history-list'>
                 {messages.map((message, index) => (
-                    <ListItem key={index}>
+                    <ListItem 
+                        key={index} 
+                        className='chat-history-item'
+                        sx={{
+                            width: "60%",
+                            float: message.sender === sender ? 'right' : 'left',
+                            flexDirection: message.sender === sender ? 'row-reverse' : 'row',
+                            textAlign: message.sender === sender ? 'right' : 'left'
+                        }}
+                    >
+                        <ListItemAvatar>
+                            <Avatar 
+                                alt='AI' 
+                                src={message.sender !== sender ? '/chat-icons/robot.png' : '/chat-icons/human.png'}
+                                sx={{
+                                    float: message.sender === sender ? 'right' : 'left'
+                                }}
+                            />
+                        </ListItemAvatar>
                         <ListItemText primary={message.content}/>
                     </ListItem>
                 ))}

@@ -16,7 +16,7 @@ const sendMessage = async (message, language, senderRole, responderRole, scenari
 
         const response = await axios.post(`${BACKEND_URL}/chat/send`, request);
 
-        return { status: 1, response: new Message(senderRole, response.data.response) };
+        return { status: 1, response: new Message(responderRole, response.data.response) };
 
     }
     catch(error) {
