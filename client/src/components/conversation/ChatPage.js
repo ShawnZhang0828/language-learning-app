@@ -1,18 +1,25 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { List, ListItem, ListItemText, ListItemAvatar, TextField, Avatar } from '@mui/material'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { List, ListItem, ListItemText, ListItemAvatar, TextField, Avatar, Popover } from '@mui/material'
 
-import { sendMessage } from '../../controllers/ChatController'
+import { sendMessage, translateMessage } from '../../controllers/ChatController'
 import Message from '../../models/message'
 
 import '../../styles/ChatPage.css'
 import BackButton from '../common/BackButton'
 import { userPreferenceContext } from '../../controllers/PreferenceController';
 
-function ChatPage({ sender, responder, scenario, roleSwitchable }) {
+function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const [sender, setSender] = useState(initSender);
+    const [responder, setResponder] = useState(initResponder);
+    const [translation, setTranslation] = useState("");
+    const [translationAnchor, setTranslationAnchor] = useState(null);
+    const [translatedMessageIndex, setTranslatedMessageIndex] = useState(0);
 
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
+
+    const chatHistoryEndRef = useRef(null);
 
     const onSendMessageClick = async () => {
         if (newMessage.trim() !== "") {
@@ -23,6 +30,25 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
             setMessages(prevMessages => [...prevMessages, response.response]);
         }
         setNewMessage("");
+    }
+
+    const onSwitchRoleClock = () => {
+        var temp = sender;
+        setSender(responder);
+        setResponder(temp);
+    }
+
+    const onTranslationRequested = async (message, index, event) => {
+        setTranslationAnchor(event.currentTarget);
+        setTranslatedMessageIndex(index);
+        var response = await translateMessage(message, userPreference["original language"]);
+        setTranslation(response.translation);
+    }
+
+    const onTranslationPopOverClose = () => {
+        // console.log(translationAnchor)
+        setTranslation("");
+        setTranslationAnchor(null);
     }
 
     useEffect(() => {
@@ -36,7 +62,7 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
     }, []);
 
     useEffect(() => {
-        console.log(messages)
+        chatHistoryEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
     // Switch roles
@@ -45,37 +71,61 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
             <BackButton />
 
             <div id='chat-page-header-container'>
-                <div>{responder}</div>
-                <button disabled={!roleSwitchable}>  
+                <div className='role-name-container'>{responder}</div>
+                <button disabled={!roleSwitchable} onClick={onSwitchRoleClock}>  
                     <img src='/common-icons/swap.png' id='chat-swap-img' />
                 </button>
-                <div>{sender}</div>
+                <div className='role-name-container'>{sender}</div>
             </div>
 
             <List id='chat-history-list'>
                 {messages.map((message, index) => (
-                    <ListItem 
-                        key={index} 
-                        className='chat-history-item'
-                        sx={{
-                            width: "60%",
-                            float: message.sender === sender ? 'right' : 'left',
-                            flexDirection: message.sender === sender ? 'row-reverse' : 'row',
-                            textAlign: message.sender === sender ? 'right' : 'left'
-                        }}
-                    >
-                        <ListItemAvatar>
-                            <Avatar 
-                                alt='AI' 
-                                src={message.sender !== sender ? '/chat-icons/robot.png' : '/chat-icons/human.png'}
-                                sx={{
-                                    float: message.sender === sender ? 'right' : 'left'
-                                }}
+                    <div>
+                        <ListItem 
+                            key={index} 
+                            className='chat-history-item'
+                            sx={{
+                                width: "60%",
+                                margin: message.sender === sender ? '0 0 0 auto' : '0 auto 0 0',
+                                display: 'flex',
+                                flexDirection: message.sender === sender ? 'row-reverse' : 'row',
+                                textAlign: message.sender === sender ? 'right' : 'left'
+                            }}
+                        >
+                            <ListItemAvatar>
+                                <Avatar 
+                                    alt='AI' 
+                                    src={message.sender !== sender ? '/chat-icons/robot.png' : '/chat-icons/human.png'}
+                                    sx={{
+                                        float: message.sender === sender ? 'right' : 'left'
+                                    }}
+                                />
+                            </ListItemAvatar>
+                            <ListItemText 
+                                primary={message.content}
+                                onClick={(e) => onTranslationRequested(message.content, index, e)} 
                             />
-                        </ListItemAvatar>
-                        <ListItemText primary={message.content}/>
-                    </ListItem>
+                            <Popover 
+                                id='translation-popover'
+                                open={Boolean(translation) && translatedMessageIndex === index}
+                                onClose={onTranslationPopOverClose}
+                                anchorEl={translationAnchor}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: message.sender === sender ? 'right' : 'left'
+                                }}
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: message.sender === sender ? 'right' : 'left',
+                                }}
+                            >
+                                {translation}
+                            </Popover>
+                        </ListItem>
+                    </div>
+                    
                 ))}
+                <div ref={chatHistoryEndRef} />
             </List>
 
             <div id='user-chat-input-container'>
@@ -98,7 +148,6 @@ function ChatPage({ sender, responder, scenario, roleSwitchable }) {
                     <img src='/chat-icons/send-message.png' id='send-message-button-img'/>
                 </button>
             </div>
-            
         </div>
     )
 }

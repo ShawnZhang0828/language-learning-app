@@ -25,4 +25,22 @@ const sendMessage = async (message, language, senderRole, responderRole, scenari
     };
 }
 
-export { sendMessage }
+const translateMessage = async (message, targetLanguage) => {
+    try {
+        const request = {
+            message: message,
+            targetLanguage: targetLanguage
+        }
+
+        const response = await axios.post(`${BACKEND_URL}/chat/translate`, request);
+
+        return { status: 1, translation: response.data.translation };
+
+    }
+    catch(error) {
+        console.error("Error translating message", error);
+        return { status: 0, message: "We encountered an error when translating the message" };
+    };
+}
+
+export { sendMessage, translateMessage }

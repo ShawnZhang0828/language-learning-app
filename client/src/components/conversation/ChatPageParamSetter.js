@@ -7,6 +7,7 @@ function ChatPageParamSetter() {
     var { type } = useParams();
 
     var sender, responder;
+    var roleSwitchable = true;
 
     switch (type) {
         case 'Restaurant':
@@ -28,10 +29,11 @@ function ChatPageParamSetter() {
         default:
             sender = "Learner";
             responder = "ChatBot";
+            roleSwitchable = false;
     }
 
     return (
-        <ChatPage sender={sender} responder={responder} scenario={type} />
+        <ChatPage initSender={sender} initResponder={responder} scenario={type} roleSwitchable={roleSwitchable} />
     )
 }
 
