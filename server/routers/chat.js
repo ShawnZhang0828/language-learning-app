@@ -21,14 +21,12 @@ router.post('/send', jsonParser, async (req, res) => {
     }
     var queryString = message;
 
-    // const completion = await openai.createChatCompletion({
-    //     model: "gpt-3.5-turbo",
-    //     messages: [{"role": "system", "content": hintString}, {"role": "user", "content": queryString}],
-    // });
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{"role": "system", "content": hintString}, {"role": "user", "content": queryString}],
+    });
 
-    // var response = completion.data.choices[0].message.content;
-
-    var response = "こんにちわ!";
+    var response = completion.data.choices[0].message.content;
 
     res.send({ response: response });
 });
@@ -39,14 +37,12 @@ router.post('/translate', jsonParser, async (req, res) => {
     var hintString = `Please translate my sentence to ${targetLanguage}. Give the translation only.`;
     var queryString = message;
 
-    // const completion = await openai.createChatCompletion({
-    //     model: "gpt-3.5-turbo",
-    //     messages: [{"role": "system", "content": hintString}, {"role": "user", "content": queryString}],
-    // });
+    const completion = await openai.createChatCompletion({
+        model: "gpt-3.5-turbo",
+        messages: [{"role": "system", "content": hintString}, {"role": "user", "content": queryString}],
+    });
 
-    // var response = completion.data.choices[0].message.content;
-
-    var response = "Hello! Nice to meet you, I am AI. Nice to meet you. What kind of conversation would you like to have?";
+    var response = completion.data.choices[0].message.content;
 
     res.send({ translation: response });
 });

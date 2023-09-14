@@ -10,6 +10,7 @@ import MainPage from './components/MainPage';
 import VocabularyLibrary from './components/vocabulary/VocabularyLibrary';
 import VocabularyQuiz from './components/vocabulary/VocabularyQuiz';
 import ChatPageParamSetter from './components/conversation/ChatPageParamSetter';
+import ScenarioSelectionPage from './components/conversation/ScenarioSelectionPage';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
               <Route path="/level-pref" element={ <PreferencePage prefName="level" nextPage={"/main"} /> }/>
               <Route path="/main" element={ <MainPage /> }/>
               <Route path="/chatbot-chat/:type" element={ <ChatPageParamSetter /> } />
+              <Route path='/role-play' element={ <ScenarioSelectionPage /> }/>
               <Route path="/vocabulary-library" element={ <VocabularyLibrary /> }/>
               <Route path="/vocabulary-quiz" element={ <VocabularyQuiz /> }/>
           </Routes>

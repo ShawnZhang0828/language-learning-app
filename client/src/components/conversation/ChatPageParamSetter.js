@@ -26,6 +26,18 @@ function ChatPageParamSetter() {
             sender = "Customer";
             responder = "Waiter";
             break;
+        case 'Hotel-Booking':
+            sender = "Tourist";
+            responder = "Receptionist";
+            break;
+        case 'Airport':
+            sender = "Traveler";
+            responder = "Airline Staff";
+            break;
+        case 'Interview':
+            sender = "Employee";
+            responder = "Interviewer";
+            break;
         default:
             sender = "Learner";
             responder = "ChatBot";

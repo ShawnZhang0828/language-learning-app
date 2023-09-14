@@ -80,7 +80,7 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
 
             <List id='chat-history-list'>
                 {messages.map((message, index) => (
-                    <div>
+                    <div key={index}>
                         <ListItem 
                             key={index} 
                             className='chat-history-item'
@@ -123,7 +123,6 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
                             </Popover>
                         </ListItem>
                     </div>
-                    
                 ))}
                 <div ref={chatHistoryEndRef} />
             </List>
