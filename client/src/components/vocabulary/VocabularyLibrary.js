@@ -15,13 +15,15 @@ import '../../styles/VocabularyLibrary.css'
 import NewWordForm from './NewWordForm'
 import VocabularyList from './VocabularyList';
 import WordDetailCard from './WordDetailCard';
-import BackButton from '../common/BackButton'
+import BackButton from '../common/BackButton';
+import VocabPlaybackControl from './VocabPlaybackControl';
 import { userPreferenceContext } from '../../controllers/PreferenceController';
 
 function VocabularyLibrary() {
 
     const [addWord, setAddWord] = useState(false);
     const [words, setWords] = useState([]);
+    const [showPlaybackController, setShowPlaybackController] = useState(false);
     const [currentPage, setCurrentPage] = useState(1.0);
     const [totalPages, setTotalPages] = useState(1);
     const [pageVocabularyList, setPageVocabularyList] = useState([]);
@@ -38,6 +40,10 @@ function VocabularyLibrary() {
 
     const onCloseAddWordClick = () => {
         setAddWord(false);
+    }
+
+    const onPlaybackClick = () => {
+        setShowPlaybackController(true);
     }
 
     const onPageButtonClick = (pageNUmber) => {
@@ -67,6 +73,7 @@ function VocabularyLibrary() {
         return result;
     }
 
+    // TODO: paging to be implemented
     const onPreviousPageClick = () => {
         navigate(-1);
     }
@@ -117,9 +124,10 @@ function VocabularyLibrary() {
     return (
         <div id='vocabulary-library-container'>
             <BackButton />
-            <div className='add-word-btn-container' style={{ opacity: (selectedWord === null && !addWord) ? 1 : 0.3 }}>
+            <div className='add-word-btn-container' style={{ opacity: (selectedWord === null && !addWord && !showPlaybackController) ? 1 : 0.3 }}>
                 <button onClick={onAddWordClick}>Add New Word</button>
                 <button>Learn New Word</button>
+                <button onClick={onPlaybackClick}>Vocab Playback</button>
             </div>
             <Modal
                 open={addWord}    
@@ -131,7 +139,18 @@ function VocabularyLibrary() {
                     </div>
                 </Zoom>
             </Modal>
-            <div className='vocabulary-lists-container' style={{ opacity: (selectedWord === null && !addWord) ? 1 : 0.3 }}>
+            <Modal
+                open={showPlaybackController}
+                onClose={() => {setShowPlaybackController(false)}}
+                id="playback-controller-popup"
+            >
+                <Zoom in={showPlaybackController}>
+                    <div className='playback-containner-container'>
+                        <VocabPlaybackControl words={words}/>
+                    </div>
+                </Zoom>
+            </Modal>
+            <div className='vocabulary-lists-container' style={{ opacity: (selectedWord === null && !addWord && !showPlaybackController) ? 1 : 0.3 }}>
                 <Slider ref={sliderRef} {...vocabularySliderSetting}>
                     {pageVocabularyList.map((pageVocabulary, index) => (
                         <VocabularyList words={pageVocabulary} onWordSelected={onVocabularyRowClick} key={index}/>

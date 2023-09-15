@@ -1,5 +1,5 @@
 class Word {
-    constructor(word, translation, level, example, note, time) {
+    constructor(word, translation, level, example, note=null, time=null) {
         this.word = word;
         this.translation = translation;
         this.level = level;

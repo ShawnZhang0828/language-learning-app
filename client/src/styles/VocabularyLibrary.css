@@ -2,8 +2,8 @@
 .add-word-btn-container {
     position: fixed;
     top: 20px;
-    right: 10%;
-    width: 300px;
+    right: 8%;
+    width: 500px;
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-around;
@@ -21,7 +21,7 @@
     transform: scale(1.05);
 }
 
-#add-word-popup {
+#add-word-popup, #playback-controller-popup {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -34,7 +34,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
 }
 
 .new-word-form {
@@ -89,6 +88,36 @@
 
 #note-container input {
     height: 80%;
+}
+
+/* CSS for Vocabulary Playback Controller */
+#playback-controller {
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 18px;
+
+    background-color: #aacdfa;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+}
+
+#level-filter-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#level-filter-container {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 40px;
+}
+
+#playback-control-button-group {
+    height: 30px;
+}
+
+#playback-loop-button {
+    float: right;
 }
 
 /* CSS for vocabulary lists */
