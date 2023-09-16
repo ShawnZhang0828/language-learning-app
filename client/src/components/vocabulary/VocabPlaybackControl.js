@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import { Slider, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
@@ -13,23 +13,102 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import LoopIcon from '@mui/icons-material/Loop';
 
+import { getLanguageCode } from '../../utils/languageHelper';
+
+import { userPreferenceContext } from '../../controllers/PreferenceController';
+
 function VocabPlaybackControl({ words }) {
 
     const [selectedLevels, setSelectedLevels] = useState(['1', '2', '3', '4', '5']);
     const [playbackOn, setPlaybackOn] = useState(false);
+    const [loopOn, setLoopOn] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [filteredWords, setFilteredWords] = useState([]);
+
+    const { userPreference, setUserPreference } = useContext(userPreferenceContext);
+
+    const loopOnRef = useRef(loopOn);
+    const currentIndexRef = useRef(0);
+
+    // Initialize speech synthesis voices and utterance
+    const synth = window.speechSynthesis;
+    const targetLanguage = getLanguageCode(userPreference["target language"]);
+    const originalLanguage = getLanguageCode(userPreference["original language"]);
+
+    const targetVoice = synth.getVoices().find(voice => voice.lang === targetLanguage);
+    const originalVoice = synth.getVoices().find(voice => voice.lang === originalLanguage);
+
+    const utterWord = new SpeechSynthesisUtterance();
+    utterWord.voice = targetVoice;
+    utterWord.rate = 0.7;
+    utterWord.pitch = 0.8;
+    const utterTranslation = new SpeechSynthesisUtterance();
+    utterTranslation.voice = originalVoice;
+    const utterExample = new SpeechSynthesisUtterance();
+    utterExample.voice = targetVoice;
+    utterWord.rate = 0.85;
  
     const onSelectedLevelChange = (_, newLevels) => {
         setSelectedLevels(newLevels);
     }
 
-    const togglePlayback = () => {
-        setPlaybackOn(!playbackOn);
+    const onLoopChange = () => {
+        setLoopOn(!loopOn);
+        loopOnRef.current = !loopOn;
     }
 
     const onSliderChanged = (_, newIndex) => {
         setCurrentIndex(newIndex);
+        currentIndexRef.current = newIndex;
+
+        // Cancel current utterance and start with the new word
+        synth.cancel();
+        readWord(filteredWords[currentIndexRef.current], currentIndexRef.current);
+    }
+
+    const togglePlayback = () => {
+        var playing = playbackOn;
+
+        setPlaybackOn(!playbackOn);
+
+        if (playing) {
+            synth.cancel();
+            return;
+        }
+        
+        readWord(filteredWords[currentIndex], currentIndex);
+    }
+
+    const readWord = (word, index) => {
+        var nextIndex = index + 1;
+
+        // Speak word three times, then translation, then example. Ensure each fragment is completed before starting next fragment.
+        utterWord.text = `${word.word}, ${word.word}, ${word.word}`;
+        utterWord.onend = () => {
+            utterTranslation.text = word.translation;
+            utterTranslation.onend = () => {
+                utterExample.text = word.example;
+                utterExample.onend = handleEndOfWord;
+                synth.speak(utterExample);
+            };
+            synth.speak(utterTranslation);
+        };
+        synth.speak(utterWord);
+    
+        // At the end of each word, start next word or return to the first word
+        const handleEndOfWord = () => {
+            if (nextIndex < filteredWords.length) {
+                setCurrentIndex(nextIndex);
+                readWord(filteredWords[nextIndex], nextIndex);
+            } else {
+                setCurrentIndex(0);
+                if (loopOnRef.current) {
+                    readWord(filteredWords[0], 0);
+                } else {
+                    setPlaybackOn(false);
+                }
+            }
+        }
     }
 
     const valueLabelFormat = (value) => {
@@ -49,7 +128,12 @@ function VocabPlaybackControl({ words }) {
         <div id='playback-controller'>
             <div id='level-filter-container'>
                 <span id='level-filter-title'>Level Filter</span>
-                <ToggleButtonGroup value={selectedLevels} onChange={onSelectedLevelChange} sx={{ gap: '5px' }}>
+                <ToggleButtonGroup 
+                    value={selectedLevels} 
+                    onChange={onSelectedLevelChange} 
+                    sx={{ gap: '5px' }}
+                    disabled={playbackOn}
+                >
                     <ToggleButton value='1' aria-label='1' sx={{ padding: '5px' }}>
                         <LooksOneIcon />
                     </ToggleButton>
@@ -69,7 +153,7 @@ function VocabPlaybackControl({ words }) {
             </div>
             <Slider 
                 value={currentIndex}
-                max={words.length - 1}
+                max={filteredWords.length - 1}
                 onChange={onSliderChanged}
                 valueLabelDisplay="on"
                 valueLabelFormat={valueLabelFormat}
@@ -91,9 +175,15 @@ function VocabPlaybackControl({ words }) {
                 <button>
                     <FastForwardIcon />
                 </button>
-                <button id='playback-loop-button'>
+                <ToggleButton 
+                    value="loop" 
+                    selected={loopOn} 
+                    id='playback-loop-button' 
+                    onClick={onLoopChange} 
+                    sx={{ padding: '0px' }}
+                >
                     <LoopIcon />
-                </button>
+                </ToggleButton>
             </div>
         </div>
     )

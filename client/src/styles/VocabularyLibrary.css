@@ -114,6 +114,7 @@
 
 #playback-control-button-group {
     height: 30px;
+    margin-bottom: 10px;
 }
 
 #playback-loop-button {
