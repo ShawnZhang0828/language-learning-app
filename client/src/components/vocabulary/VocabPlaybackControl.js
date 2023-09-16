@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import { Slider, ToggleButtonGroup, ToggleButton } from '@mui/material'
+import { Slider, ToggleButtonGroup, ToggleButton, Snackbar, Alert } from '@mui/material'
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import Looks3Icon from '@mui/icons-material/Looks3';
@@ -9,8 +9,6 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import FastForwardIcon from '@mui/icons-material/FastForward';
 import LoopIcon from '@mui/icons-material/Loop';
 
 import { getLanguageCode } from '../../utils/languageHelper';
@@ -24,6 +22,8 @@ function VocabPlaybackControl({ words }) {
     const [loopOn, setLoopOn] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [filteredWords, setFilteredWords] = useState([]);
+    const [showLastWarning, setShowLastWarning] = useState(false);
+    const [showFirstWarning, setShowFirstWarning] = useState(false);
 
     const { userPreference, setUserPreference } = useContext(userPreferenceContext);
 
@@ -64,6 +64,26 @@ function VocabPlaybackControl({ words }) {
         // Cancel current utterance and start with the new word
         synth.cancel();
         readWord(filteredWords[currentIndexRef.current], currentIndexRef.current);
+    }
+
+    const onNextClick = () => {
+        var index = currentIndex;
+        if (index === filteredWords.length - 1) {
+            setShowLastWarning(true);
+            return;
+        } 
+
+        onSliderChanged(null, index + 1);
+    }
+
+    const onPrevClick = () => {
+        var index = currentIndex;
+        if (index === 0) {
+            setShowFirstWarning(true);
+            return;
+        } 
+
+        onSliderChanged(null, index - 1);
     }
 
     const togglePlayback = () => {
@@ -160,20 +180,14 @@ function VocabPlaybackControl({ words }) {
                 sx={{ paddingTop: '8px' }}
             />
             <div id='playback-control-button-group'>
-                <button>
-                    <FastRewindIcon />
-                </button>
-                <button>
+                <button onClick={onPrevClick}>
                     <ArrowLeftIcon />
                 </button>
                 <button onClick={togglePlayback}>
                     {playbackOn ? <PauseIcon /> : <PlayArrowIcon />}
                 </button>
-                <button>
+                <button onClick={onNextClick}>
                     <ArrowRightIcon />
-                </button>
-                <button>
-                    <FastForwardIcon />
                 </button>
                 <ToggleButton 
                     value="loop" 
@@ -185,6 +199,30 @@ function VocabPlaybackControl({ words }) {
                     <LoopIcon />
                 </ToggleButton>
             </div>
+            <Snackbar
+                open={showFirstWarning}
+                autoHideDuration={3000}
+                onClose={() => { setShowFirstWarning(false); }}
+            >
+                <Alert 
+                    severity='warning'
+                    sx={{ backgroundColor: '#aacdfa', fontFamily: 'Catamaran', borderRadius: '20px' }}
+                >
+                    This is already the first word!
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={showLastWarning}
+                autoHideDuration={3000}
+                onClose={() => { setShowLastWarning(false); }}
+            >
+                <Alert 
+                    severity='warning' 
+                    sx={{ backgroundColor: '#aacdfa', fontFamily: 'Catamaran', borderRadius: '20px' }}
+                >
+                    This is already the last word!
+                </Alert>
+            </Snackbar>
         </div>
     )
 }
