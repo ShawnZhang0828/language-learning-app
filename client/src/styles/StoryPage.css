@@ -31,5 +31,15 @@
 
 .text-select::selection {
     background-color: #aacdfa;
-    font-weight: bold;
+}
+
+/* Sentence Options CSS */
+#sentence-options-container {
+    background-color: #aacdfa;
+    border-radius: 10px;
+    padding: 8px;
+}
+
+.sentence-option:hover {
+    background-color: #6383ad;
 }
