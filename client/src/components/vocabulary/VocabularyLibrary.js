@@ -95,7 +95,7 @@ function VocabularyLibrary() {
     }
 
     useEffect(() => {
-        async function fetchFirebase() {
+        const fetchFirebase = async () => {
             firebase.auth().onAuthStateChanged(async (user) => {
                 if (user) {
                     await fetchVocabulary();

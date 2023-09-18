@@ -11,6 +11,7 @@ import VocabularyLibrary from './components/vocabulary/VocabularyLibrary';
 import VocabularyQuiz from './components/vocabulary/VocabularyQuiz';
 import ChatPageParamSetter from './components/conversation/ChatPageParamSetter';
 import ScenarioSelectionPage from './components/conversation/ScenarioSelectionPage';
+import StoryPage from './components/reading/StoryPage';
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
               <Route path='/role-play' element={ <ScenarioSelectionPage /> }/>
               <Route path="/vocabulary-library" element={ <VocabularyLibrary /> }/>
               <Route path="/vocabulary-quiz" element={ <VocabularyQuiz /> }/>
+              <Route path="/story" element={ <StoryPage /> } />
           </Routes>
       </userPreferenceContext.Provider>
     );

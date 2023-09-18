@@ -1,0 +1,35 @@
+#story-page-container {
+    width: 100vw;
+    height: 1000vh;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+/* Tool Bar CSS */
+#story-feature-container {
+    margin-top: 10px;
+    margin-right: 20px;
+    min-width: 150px;
+    gap: 25px;
+    display: flex;
+    flex-direction: row;
+    float: right;
+}
+
+/* Story Content CSS */
+#story-content-container {
+    /* overflow: scroll; */
+    font-size: 20px;
+    margin: 60px 10%;
+    width: 80%;
+}
+
+.text-select {
+    cursor: url('../../public/cursor/select.cur'), auto;
+}
+
+.text-select::selection {
+    background-color: #aacdfa;
+    font-weight: bold;
+}
