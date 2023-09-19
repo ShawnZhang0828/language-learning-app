@@ -34,12 +34,37 @@
 }
 
 /* Sentence Options CSS */
+#drag-area {
+    width: 100%;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #69809e;
+    margin-bottom: 10px;
+}
+
 #sentence-options-container {
+    min-width: 120px;
     background-color: #aacdfa;
     border-radius: 10px;
-    padding: 8px;
+    padding: 5px;
+}
+
+.sentence-option {
+    margin: 3px;
+    padding: 0 3px;
+    border-radius: 5px;
 }
 
 .sentence-option:hover {
     background-color: #6383ad;
 }
+
+#translation-container {
+    max-width: 300px;
+    font-size: 18px;
+}
+
+#translation-container button {
+    float: left;  /* This will make the text wrap around the button */
+    margin-right: 10px;  /* Provide some space between the button and the text */
+  }

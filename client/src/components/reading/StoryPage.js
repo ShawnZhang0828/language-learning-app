@@ -109,6 +109,8 @@ function StoryPage() {
           <SentenceOptions
             xPos={sentenceOptionPos.xPos}
             yPos={sentenceOptionPos.yPos}
+            selectedText={selectedText}
+            targetLanguage={userPreference["original language"]}
           />
         )}
       </div>
