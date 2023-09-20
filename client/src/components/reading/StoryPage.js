@@ -51,6 +51,12 @@ function StoryPage() {
     }
   };
 
+  const onStoryMouseDown = (event) => {
+    if (event.button === 2) {
+      event.preventDefault();
+    }
+  };
+
   const requestNewStory = async () => {
     setStoryLoading(true);
     var storyResponse = await requestStory(userPreference["target language"]);
@@ -100,6 +106,7 @@ function StoryPage() {
             id="story-content"
             className={textSelection ? "text-select" : ""}
             onMouseUp={onStoryMouseUp}
+            onMouseDown={onStoryMouseDown}
             style={{ opacity: showSentenceOpitons ? "0.6" : "1" }}
           >
             {storyContent}
