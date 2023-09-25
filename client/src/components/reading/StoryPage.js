@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Skeleton, ToggleButton } from "@mui/material";
 import RedoIcon from "@mui/icons-material/Redo";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -25,6 +25,8 @@ function StoryPage() {
     userPreferenceContext
   );
 
+  const optionsRef = useRef();
+
   const onRegenerateClick = async () => {
     requestNewStory();
   };
@@ -48,6 +50,9 @@ function StoryPage() {
     } else if (event.button === 0) {
       setShowSentenceOptions(false);
       setSelectedText("");
+      if (optionsRef.current) {
+        optionsRef.current.onOptionsClose();
+      }
     }
   };
 
@@ -55,6 +60,10 @@ function StoryPage() {
     if (event.button === 2) {
       event.preventDefault();
     }
+  };
+
+  const handleOptionsClose = () => {
+    this.child.onOptionsClose();
   };
 
   const requestNewStory = async () => {
@@ -118,6 +127,8 @@ function StoryPage() {
             yPos={sentenceOptionPos.yPos}
             selectedText={selectedText}
             targetLanguage={userPreference["original language"]}
+            storyLanguage={userPreference["target language"]}
+            ref={optionsRef}
           />
         )}
       </div>
