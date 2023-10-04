@@ -146,7 +146,7 @@ function SignUpForm() {
           sx={{ marginBottom: "25px", width: "90%" }}
           required
         >
-          <InputLabel htmlFor="userEmail">Email</InputLabel>
+          <InputLabel htmlFor="user-email">Email</InputLabel>
           <Input
             id="user-email"
             name="userEmail"
@@ -166,7 +166,7 @@ function SignUpForm() {
           sx={{ marginBottom: "25px", width: "90%" }}
           required
         >
-          <InputLabel htmlFor="text">User Name</InputLabel>
+          <InputLabel htmlFor="user-name">User Name</InputLabel>
           <Input
             id="user-name"
             name="userName"
@@ -189,7 +189,7 @@ function SignUpForm() {
           }}
           required
         >
-          <InputLabel htmlFor="userPassword">Password</InputLabel>
+          <InputLabel htmlFor="first-password">Password</InputLabel>
           <Input
             id="first-password"
             name="firstPwd"
@@ -219,7 +219,7 @@ function SignUpForm() {
           sx={{ marginBottom: "25px", width: "90%" }}
           required
         >
-          <InputLabel htmlFor="userPassword">Confirm Password</InputLabel>
+          <InputLabel htmlFor="second-password">Confirm Password</InputLabel>
           <Input
             id="second-password"
             name="secondPwd"

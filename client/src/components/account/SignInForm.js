@@ -60,7 +60,7 @@ const SignInForm = () => {
           variant="standard"
           sx={{ marginBottom: "25px", width: "90%" }}
         >
-          <InputLabel htmlFor="userEmail">Email</InputLabel>
+          <InputLabel htmlFor="user-email">Email</InputLabel>
           <Input
             id="user-email"
             name="userEmail"
@@ -79,7 +79,7 @@ const SignInForm = () => {
           variant="standard"
           sx={{ marginBottom: "45px", width: "90%" }}
         >
-          <InputLabel htmlFor="userPassword">Password</InputLabel>
+          <InputLabel htmlFor="user-password">Password</InputLabel>
           <Input
             id="user-password"
             name="userPassword"
