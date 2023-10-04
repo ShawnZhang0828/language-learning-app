@@ -4,12 +4,12 @@ import { FormControl, Input, InputAdornment, InputLabel } from "@mui/material";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
-import { auth } from "../controllers/FirebaseController";
-import { signInWithEmailAndPassword } from "../controllers/SignInController";
-import { userPreferenceContext } from "../controllers/PreferenceController";
+import { auth } from "../../controllers/FirebaseController";
+import { signInWithEmailAndPassword } from "../../controllers/SignInController";
+import { userPreferenceContext } from "../../controllers/PreferenceController";
 
-import "../styles/SigninPage.css";
-import GoogleSignIn from "./GoogleSignIn";
+import "../../styles/SigninPage.css";
+import GoogleSignIn from "../GoogleSignIn";
 
 const SignInForm = () => {
   const [email, setEmail] = useState("");
@@ -55,12 +55,18 @@ const SignInForm = () => {
     }
   };
 
+  const onSignUpClick = () => {
+    navigate("/signup");
+  };
+
   return (
-    <div id="login-form-container">
+    <div id="login-form-container" className="medium-container">
       {error !== null && <div>{error}</div>}
 
-      <form id="login-form">
-        <div id="login-header">Login</div>
+      <form id="login-form" className="medium-form">
+        <div id="login-header" className="medium-header">
+          Login
+        </div>
         <FormControl
           variant="standard"
           sx={{ marginBottom: "25px", width: "90%" }}
@@ -110,7 +116,9 @@ const SignInForm = () => {
         <GoogleSignIn></GoogleSignIn>
         <div id="register-container">
           <div id="register-text">Don't have an account? Register now!</div>
-          <button className="login-page-button">SIGN UP</button>
+          <button className="login-page-button" onClick={onSignUpClick}>
+            SIGN UP
+          </button>
         </div>
       </form>
     </div>
