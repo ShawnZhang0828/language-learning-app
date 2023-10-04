@@ -45,8 +45,8 @@ function VocabPlaybackControl({ words }) {
 
   // Initialize speech synthesis voices and utterance
   const synth = window.speechSynthesis;
-  const targetLanguage = getLanguageCode(userPreference["target language"]);
-  const originalLanguage = getLanguageCode(userPreference["original language"]);
+  const targetLanguage = getLanguageCode(userPreference["target-language"]);
+  const originalLanguage = getLanguageCode(userPreference["original-language"]);
 
   const targetVoice = synth
     .getVoices()

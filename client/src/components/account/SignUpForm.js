@@ -114,11 +114,11 @@ function SignUpForm() {
 
       if (signUpResponse.status === 1) {
         const newPreference = {
-          "dark mode": "false",
+          "dark-mode": "false",
           level: level,
-          "original language": originalLang,
+          "original-language": originalLang,
           reason: reason,
-          "target language": targetLang,
+          "target-language": targetLang,
         };
         setUserPreference(newPreference);
 

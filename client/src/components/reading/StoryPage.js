@@ -68,7 +68,7 @@ function StoryPage() {
 
   const requestNewStory = async () => {
     setStoryLoading(true);
-    var storyResponse = await requestStory(userPreference["target language"]);
+    var storyResponse = await requestStory(userPreference["target-language"]);
     setStoryLoading(false);
     setStoryContent(storyResponse.story);
     return storyResponse;
@@ -126,8 +126,8 @@ function StoryPage() {
             xPos={sentenceOptionPos.xPos}
             yPos={sentenceOptionPos.yPos}
             selectedText={selectedText}
-            targetLanguage={userPreference["original language"]}
-            storyLanguage={userPreference["target language"]}
+            targetLanguage={userPreference["original-language"]}
+            storyLanguage={userPreference["target-language"]}
             ref={optionsRef}
           />
         )}
