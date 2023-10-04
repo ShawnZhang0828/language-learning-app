@@ -7,7 +7,7 @@ import "../styles/MainPage.css";
 import { auth } from "../controllers/FirebaseController";
 import { features } from "../controllers/FeatureController";
 
-import IconGrid from "./IconGrid";
+import IconGrid from "./common/IconGrid";
 import SubfeatureList from "./SubfeatureList";
 
 function MainPage() {

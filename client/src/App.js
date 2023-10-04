@@ -7,7 +7,6 @@ import { userPreferenceContext } from "./controllers/PreferenceController";
 
 import SignInForm from "./components/account/SignInForm";
 import SignUpForm from "./components/account/SignUpForm";
-import PreferencePage from "./components/PreferencePage";
 import MainPage from "./components/MainPage";
 import VocabularyLibrary from "./components/vocabulary/VocabularyLibrary";
 import VocabularyQuiz from "./components/vocabulary/VocabularyQuiz";
@@ -41,37 +40,6 @@ function App() {
         <Routes>
           <Route path="/" element={<SignInForm />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route
-            path="/target-language-pref"
-            element={
-              <PreferencePage
-                prefName="target language"
-                nextPage={"/original-language-pref"}
-              ></PreferencePage>
-            }
-          />
-          <Route
-            path="/original-language-pref"
-            element={
-              <PreferencePage
-                prefName="original language"
-                nextPage={"/reason-pref"}
-              ></PreferencePage>
-            }
-          />
-          <Route
-            path="/reason-pref"
-            element={
-              <PreferencePage
-                prefName="reason"
-                nextPage={"/level-pref"}
-              ></PreferencePage>
-            }
-          />
-          <Route
-            path="/level-pref"
-            element={<PreferencePage prefName="level" nextPage={"/main"} />}
-          />
           <Route path="/main" element={<MainPage />} />
           <Route path="/chatbot-chat/:type" element={<ChatPageParamSetter />} />
           <Route path="/role-play" element={<ScenarioSelectionPage />} />

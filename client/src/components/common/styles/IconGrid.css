@@ -1,8 +1,4 @@
-.preference-title {
-    font-size: 50px;
-}
-
-.preference-icon {
+.grid-icon {
     border-radius: 50%;
     height: 100px;
     width: 100px;
@@ -11,11 +7,11 @@
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
-.preference-icon:hover {
+.grid-icon:hover {
     transform: scale(1.1);
 }
 
-.preference-icon.selected {
+.grid-icon.selected {
     transform: scale(1.15);
 }
 
@@ -48,27 +44,4 @@
 /* Dealing with single orphan */
 .option-container:last-child:nth-child(3n - 2) {
     grid-column-end: 5;
-}
-
-.preference-selection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.preference-btn {
-    height: 40px;
-    width: 80px;
-    font-size: 18px;
-    background-color: #FCFCFD;
-    border-radius: 10px;
-    border-width: 0;
-    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
-    box-sizing: border-box;
-    color: #36395A;
-}
-
-.preference-btn:hover {
-    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
-    transform: translateY(-2px);
 }
