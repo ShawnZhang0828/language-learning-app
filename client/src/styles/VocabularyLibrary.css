@@ -28,21 +28,10 @@
     justify-content: center;
 }
 
-.add-word-zoom-container {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .new-word-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5px;
-    background-color: #aacdfa;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 }
 
 .add-word-form-header {
@@ -96,9 +85,6 @@
     display: flex;
     flex-direction: column;
     padding: 0 18px;
-
-    background-color: #aacdfa;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 }
 
 #level-filter-title {
@@ -190,10 +176,7 @@
 }
 
 #word-detail-container {
-    padding: 5px 10px 5px 10px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
     width: 20%;
-    background-color: #aacdfa;
 }
 
 .word-popup-column {

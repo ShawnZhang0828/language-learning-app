@@ -146,7 +146,10 @@ function VocabularyLibrary() {
       </div>
       <Modal open={addWord} id="add-word-popup">
         <Zoom in={addWord}>
-          <div className="add-word-zoom-container">
+          <div
+            id="add-word-zoom-container"
+            className="mui-modal-component-wrapper"
+          >
             <NewWordForm
               cancelAdd={onCloseAddWordClick}
               language={userPreference["target-language"]}
@@ -162,7 +165,10 @@ function VocabularyLibrary() {
         id="playback-controller-popup"
       >
         <Zoom in={showPlaybackController}>
-          <div className="playback-containner-container">
+          <div
+            id="playback-containner-container"
+            className="mui-modal-component-wrapper"
+          >
             <VocabPlaybackControl words={words} />
           </div>
         </Zoom>
@@ -204,7 +210,10 @@ function VocabularyLibrary() {
       </div>
       <Modal open={selectedWord !== null} id="word-detail-popup">
         <Zoom in={selectedWord !== null}>
-          <div id="word-detail-container">
+          <div
+            id="word-detail-container"
+            className="mui-modal-component-wrapper"
+          >
             {selectedWord && (
               <WordDetailCard
                 word={selectedWord}

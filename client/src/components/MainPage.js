@@ -116,7 +116,10 @@ function MainPage() {
             key={feature.value}
           >
             <Zoom in={selectedFeature === feature.value}>
-              <div id="subfeature-list-container">
+              <div
+                id="subfeature-list-container"
+                className="mui-modal-component-wrapper"
+              >
                 <SubfeatureList subfeatures={feature.subfeature} />
               </div>
             </Zoom>
@@ -132,7 +135,10 @@ function MainPage() {
         id="subfeature-popup"
       >
         <Zoom in={showFavourite}>
-          <div id="favourite-card-container">
+          <div
+            id="favourite-card-container"
+            className="mui-modal-component-wrapper"
+          >
             <FavouriteCard />
           </div>
         </Zoom>
