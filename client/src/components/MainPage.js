@@ -9,10 +9,12 @@ import { features } from "../controllers/FeatureController";
 
 import IconGrid from "./common/IconGrid";
 import SubfeatureList from "./SubfeatureList";
+import FavouriteCard from "./user-feature/FavouriteCard";
 
 function MainPage() {
   const [selectedFeature, setSelectedFeature] = useState("");
   const [showDrawer, setShowDrawer] = useState(false);
+  const [showFavourite, setShowFavourite] = useState(false);
 
   const navigate = useNavigate();
 
@@ -59,7 +61,12 @@ function MainPage() {
         </div>
         <Divider />
         <List>
-          <div className="user-drawer-item-container user-drawer-option">
+          <div
+            className="user-drawer-item-container user-drawer-option"
+            onClick={() => {
+              setShowFavourite(true);
+            }}
+          >
             Favourites
           </div>
           <div className="user-drawer-item-container user-drawer-option">
@@ -89,6 +96,7 @@ function MainPage() {
         </List>
         {/* TODO: MORE ITEMS */}
       </Drawer>
+
       <div id="all-feature-container">
         <h1>Unlock Your Potential</h1>
         <div
@@ -115,6 +123,20 @@ function MainPage() {
           </Modal>
         ))}
       </div>
+
+      <Modal
+        open={showFavourite}
+        onClose={() => {
+          setShowFavourite(false);
+        }}
+        id="subfeature-popup"
+      >
+        <Zoom in={showFavourite}>
+          <div id="favourite-card-container">
+            <FavouriteCard />
+          </div>
+        </Zoom>
+      </Modal>
     </div>
   );
 }
