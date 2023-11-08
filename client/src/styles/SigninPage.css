@@ -26,6 +26,10 @@
     overflow-y: scroll;
 }
 
+.medium-form .medium-header {
+    margin-top: 5%
+}
+
 .medium-form::-webkit-scrollbar {
     display: none;
   }
@@ -42,7 +46,7 @@
 
 #register-text {
     font-weight: lighter;
-    margin-top: 80px;
+    margin-top: 70px;
 }
 
 #register-container {
