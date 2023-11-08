@@ -7,6 +7,7 @@ import {
   TextField,
   Avatar,
   Popover,
+  CircularProgress,
 } from "@mui/material";
 
 import {
@@ -24,6 +25,7 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
   const [newMessage, setNewMessage] = useState("");
   const [sender, setSender] = useState(initSender);
   const [responder, setResponder] = useState(initResponder);
+  const [translationLoading, setTranslationLoading] = useState(false);
   const [translation, setTranslation] = useState("");
   const [translationAnchor, setTranslationAnchor] = useState(null);
   const [translatedMessageIndex, setTranslatedMessageIndex] = useState(0);
@@ -64,6 +66,7 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
       message,
       userPreference["original-language"]
     );
+    setTranslationLoading(false);
     setTranslation(response.translation);
   };
 
@@ -136,13 +139,17 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
               </ListItemAvatar>
               <ListItemText
                 primary={message.content}
-                onClick={(e) =>
-                  onTranslationRequested(message.content, index, e)
-                }
+                onClick={(e) => {
+                  setTranslationLoading(true);
+                  onTranslationRequested(message.content, index, e);
+                }}
               />
               <Popover
                 id="translation-popover"
-                open={Boolean(translation) && translatedMessageIndex === index}
+                open={
+                  (translationLoading || Boolean(translation)) &&
+                  translatedMessageIndex === index
+                }
                 onClose={onTranslationPopOverClose}
                 anchorEl={translationAnchor}
                 anchorOrigin={{
@@ -154,7 +161,11 @@ function ChatPage({ initSender, initResponder, scenario, roleSwitchable }) {
                   horizontal: message.sender === sender ? "right" : "left",
                 }}
               >
-                {translation}
+                {translationLoading ? (
+                  <CircularProgress size={20} />
+                ) : (
+                  <div>{translation}</div>
+                )}
               </Popover>
             </ListItem>
           </div>
