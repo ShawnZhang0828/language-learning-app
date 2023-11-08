@@ -18,6 +18,9 @@ const signUpWithEmailAndPassword = async (user) => {
       const preferenceRef = database
         .collection("preference")
         .doc(registeredUser.uid);
+      const favouriteRef = database
+        .collection("favourites")
+        .doc(registeredUser.uid);
 
       await preferenceRef.set({
         "dark mode": false,
@@ -33,6 +36,13 @@ const signUpWithEmailAndPassword = async (user) => {
         3: [],
         4: [],
         5: [],
+      });
+
+      await favouriteRef.set({
+        chat: [],
+        culture: [],
+        grammar: [],
+        phrasebook: [],
       });
 
       console.log(`Initialize ${user.email} database successfully.`);
