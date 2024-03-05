@@ -132,7 +132,7 @@ function VocabularyLibrary() {
     <div id="vocabulary-library-container">
       <BackButton />
       <div
-        className="add-word-btn-container"
+        className="library-option-btn-container"
         style={{
           opacity:
             selectedWord === null && !addWord && !showPlaybackController

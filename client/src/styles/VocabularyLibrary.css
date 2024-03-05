@@ -1,26 +1,4 @@
 /* CSS for add new word popup */
-.add-word-btn-container {
-    position: fixed;
-    top: 20px;
-    right: 8%;
-    width: 500px;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around;
-}
-
-.add-word-btn-container button {
-    font-size: 18px;
-    border-radius: 10px;
-    background: none;
-    border: 2px solid #086382;
-    /* box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset; */
-}
-
-.add-word-btn-container button:hover {
-    transform: scale(1.05);
-}
-
 #add-word-popup, #playback-controller-popup {
     display: flex;
     flex-direction: column;
@@ -28,42 +6,7 @@
     justify-content: center;
 }
 
-.new-word-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.add-word-form-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    border-bottom: 3px solid black;
-    margin-bottom: 6px;
-}
-
-.add-word-form-title {
-    font-size: 18px;
-    font-weight: bold;
-    margin-left: 8px;
-}
-
-.add-word-form-header-btns {
-    display: flex;
-    gap: 7px;
-}
-
-.add-word-form-header-btn {
-    background: none;
-    border: none;
-}
-
-.add-word-form-header-btn img {
-    width: 20px;
-}
-
-.new-word-form label {
+.common-form label {
     width: 90px;
     display: inline-block;
 }

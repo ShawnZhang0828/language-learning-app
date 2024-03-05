@@ -53,7 +53,7 @@ function NewWordForm({ cancelAdd, language }) {
   };
 
   return (
-    <form onSubmit={onWordSubmit} className="new-word-form">
+    <form onSubmit={onWordSubmit} className="common-form">
       {notification && (
         <div
           className="notification"
@@ -67,15 +67,15 @@ function NewWordForm({ cancelAdd, language }) {
           {warning}
         </div>
       )}
-      <div className="add-word-form-header">
-        <span className="add-word-form-title">Add A New Word</span>
-        <div className="add-word-form-header-btns">
-          <button type="submit" className="add-word-form-header-btn">
+      <div className="common-form-header">
+        <span className="common-form-title">Add A New Word</span>
+        <div className="common-form-header-btns">
+          <button type="submit" className="common-form-header-btn">
             <img src="/common-icons/submit.png" alt="Submit" />
           </button>
           <button
             type="button"
-            className="add-word-form-header-btn"
+            className="common-form-header-btn"
             onClick={cancelAdd}
           >
             <img src="/common-icons/cancel.png" alt="Cancel" />

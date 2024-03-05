@@ -18,10 +18,10 @@ const features = [
         ]
     },
     {
-        value: "Grammar Lessons",
+        value: "Grammar Guide",
         icon: "/feature-icons/grammar.png",
         subfeature: [
-            {value: "Grammar Lessons", icon: "/feature-icons/grammar-lesson.png", link: "/grammar-lesson"},
+            {value: "Grammar Library", icon: "/feature-icons/grammar-lesson.png", link: "/grammar-library"},
             {value: "Grammer Quiz", icon: "/feature-icons/quiz.png", link: "/grammar-quiz"}
         ]
     },

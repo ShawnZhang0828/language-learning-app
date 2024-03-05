@@ -1,0 +1,58 @@
+#grammar-library-page {
+    width: 100vw;
+
+    display: flex;
+    justify-content: center;
+}
+
+#grammar-list {
+    top: 10vh;
+    width: 70%;
+}
+
+/* Add Grammar Form CSS */
+#add-grammar-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-progress-container {
+    width: 100%;
+}
+
+#add-progress {
+    width: 100%;
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-progress-item {
+    width: 80%;
+    border-bottom: 1px solid black;
+}
+
+#new-grammar-element-editor-container img {
+    width: 20px;
+}
+
+#add-progress-container {
+    border-bottom: 2px solid grey;
+}
+
+#new-grammar-element-editor-container {
+    width: 90%;
+    padding-top: 8px;
+    align-items: flex-start;
+}
+
+#new-grammar-element-editor {
+    padding-bottom: 3px;
+}

@@ -12,15 +12,10 @@ const signUpWithEmailAndPassword = async (user) => {
     const registeredUser = userCredential.user;
 
     if (registeredUser) {
-      const vocabularyRef = database
-        .collection("vocabulary")
-        .doc(registeredUser.uid);
-      const preferenceRef = database
-        .collection("preference")
-        .doc(registeredUser.uid);
-      const favouriteRef = database
-        .collection("favourites")
-        .doc(registeredUser.uid);
+      const vocabularyRef = database.collection("vocabulary").doc(registeredUser.uid);
+      const preferenceRef = database.collection("preference").doc(registeredUser.uid);
+      const favouriteRef = database.collection("favourites").doc(registeredUser.uid);
+      const grammarRef = database.collection("grammar").doc(registeredUser.uid);
 
       await preferenceRef.set({
         "dark mode": false,
@@ -44,6 +39,10 @@ const signUpWithEmailAndPassword = async (user) => {
         grammar: [],
         phrasebook: [],
       });
+
+      await grammarRef.set({
+        grammars: []
+      })
 
       console.log(`Initialize ${user.email} database successfully.`);
     }

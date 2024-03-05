@@ -8,7 +8,7 @@ const vocabularyController = require('./routers/vocabulary.js');
 const chatController = require('./routers/chat.js');
 const readingController = require('./routers/reading.js');
 
-const port = 3000;
+const port = 3001;
 
 app.use('/vocabulary', vocabularyController);
 app.use('/chat', chatController);
