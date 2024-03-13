@@ -20,6 +20,7 @@
 
 #add-progress-container {
     width: 100%;
+    border-bottom: 2px solid grey;
 }
 
 #add-progress {
@@ -37,14 +38,22 @@
 .add-progress-item {
     width: 80%;
     border-bottom: 1px solid black;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+
+    margin-bottom: 4px;
+}
+
+#recycle-bin-container {
+    width: 80%;
+    padding-left: 5%;
 }
 
 #new-grammar-element-editor-container img {
     width: 20px;
-}
-
-#add-progress-container {
-    border-bottom: 2px solid grey;
 }
 
 #new-grammar-element-editor-container {

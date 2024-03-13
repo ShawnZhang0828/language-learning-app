@@ -6,7 +6,7 @@ import {
   MenuItem,
   TextField,
   Grid,
-  List,
+  Avatar,
 } from "@mui/material";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
@@ -19,16 +19,41 @@ import {
   FixedString,
 } from "../../models/grammar";
 
+import { addGrammarRule } from "../../controllers/GrammarController";
+
 function NewGrammarCard({ cancelAdd }) {
   const [notification, setNotification] = useState("");
   const [warning, setWarning] = useState("");
-  const [addProgress, setAddProgress] = useState(["i", "am", "a", 'smart', 'person', 'u', 'know']);
+  const [addProgress, setAddProgress] = useState([]);
   const [editNewElement, setEditNewElement] = useState(false);
   const [editFixed, setEditFixed] = useState("");
   const [editScreenText, setEditScreenText] = useState("");
   const [editType, setEditType] = useState("");
 
+  const onGrammarRuleSubmit = async (e) => {
+    e.preventDefault();
+
+    var newRule = new GrammarRule(...addProgress);
+
+    var grammarString = addProgress.map((element) => {return element.screenText})
+    console.log(`adding grammar ${grammarString.join(' - ')}`);
+
+    setAddProgress([]);
+    setEditFixed("");
+    setEditScreenText("");
+    setEditType("");
+
+    var result = await addGrammarRule(newRule.convertToDictList());
+    if (result.status === 0) {
+      setWarning(result.message);
+    } else {
+      setNotification(`New grammar rule is successfully added!`);
+    }
+  };
+
   const addNewElement = () => {
+    setNotification("");
+    setWarning("");
     setEditNewElement(true);
   };
 
@@ -84,7 +109,7 @@ function NewGrammarCard({ cancelAdd }) {
   };
 
   return (
-    <form id="add-grammar-form" className="common-form">
+    <form id="add-grammar-form" className="common-form" onSubmit={onGrammarRuleSubmit}>
       {notification && (
         <div
           className="notification"
@@ -125,8 +150,8 @@ function NewGrammarCard({ cancelAdd }) {
               >
                 {addProgress.map((item, index) => (
                   <Draggable
-                    key={item}
-                    draggableId={item.toString()}
+                    key={item.screenText}
+                    draggableId={item.screenText}
                     index={index}
                   >
                     {(provided) => (
@@ -136,7 +161,8 @@ function NewGrammarCard({ cancelAdd }) {
                         {...provided.dragHandleProps}
                         className="add-progress-item"
                       >
-                        {`${item}`.repeat(5)}
+                        <Avatar sx={{ bgcolor: "#3d5a80", width: 28, height: 28, fontSize: 15 }}>{item.abbreviation}</Avatar>
+                        {item.screenText}
                       </div>
                     )}
                   </Draggable>
@@ -149,10 +175,10 @@ function NewGrammarCard({ cancelAdd }) {
             {(provided, snapshot) => (
               <div
                 className="common-form-header-btn"
+                id="recycle-bin-container"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {/* {provided.placeholder} */}
                 <img
                   src="/common-icons/recycle-bin.png"
                   alt="Delete"
